@@ -1,0 +1,34 @@
+.widget {
+    &.widget-no-margins {
+        margin: 0!important;
+    }
+
+    section.no-margin & {
+        margin-top: 0!important;
+        margin-bottom: 0!important;
+    }
+
+    section.no-margin-top & {
+        margin-top: 0!important;
+    }
+
+    section.no-margin-bottom & {
+        margin-bottom: 0!important;
+    }
+
+    &.no-margin-top {
+        margin-top: 0!important;
+    }
+
+    &.no-margin-bottom {
+        margin-bottom: 0!important;
+    }
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.oh {
+    overflow: hidden;
+}

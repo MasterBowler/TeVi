@@ -1,0 +1,161 @@
+html {
+    font-size: 10px;
+}
+
+body {
+    @extend %font-body;
+    text-align: left;
+    -webkit-tap-highlight-color: rgba($black_color, 0);
+    background-color: $layout_bg;
+}
+
+a {
+    word-wrap: break-word;
+    transition: all 0.2s linear;
+
+    &, 
+    &:active, 
+    &:focus, 
+    &:active:focus, 
+    &:hover {
+        text-decoration: none;
+        outline: none!important;
+        box-shadow: none!important;
+    }	
+
+}
+
+button {
+    transition: all 0.2s linear;
+
+    &, 
+    &:active, 
+    &:focus, 
+    &:active:focus, 
+    &:hover {
+        outline: none!important;
+        box-shadow: none!important;
+    }	
+
+}
+
+input,
+textarea {
+    box-shadow: none!important;
+}
+
+h1 {
+    @extend %font-h1;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+h2 {
+    @extend %font-h2;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+h3 {
+    @extend %font-h3;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+h4 {
+    @extend %font-h4;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+p {
+    @extend %font-p;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.icon {
+    position: relative;
+    display: inline-block;
+    margin-right: 0.5rem;
+    top: 1px;
+
+    h1 & {
+        top: 2px;
+
+        @media (min-width: 992px) {
+            top: 4px;
+        }
+
+        @media (min-width: 1470px) {
+            top: 0.8rem;
+        }
+    }
+
+    h2 & {
+        top: 2px;
+
+        @media (min-width: 768px) {
+            top: 3px;
+        }
+
+        @media (min-width: 1200px) {
+            top: 4px;
+        }
+    }
+
+    h3 & {
+        top: 1px;
+
+        @media (min-width: 768px) {
+            top: 2px;
+        }
+
+        @media (min-width: 1200px) {
+            top: 4px;
+        }
+    }
+
+    h4 & {
+        top: 2px;
+
+        @media (min-width: 992px) {
+            top: 3px;
+        }
+    }
+}
+
+iframe	{
+    border: none;
+}
+
+b,
+strong {
+    font-weight: 700;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.yellow {
+    color: $skin_color;
+}
+
+::-moz-selection {
+    color: $white_color;
+    background: $skin_color;
+}
+
+::selection {
+    color: $white_color;
+    background: $skin_color;
+}
