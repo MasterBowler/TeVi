@@ -1,0 +1,79 @@
+.row {
+    .container-data > & {
+        section & {
+        footer &,
+        main & {
+                -ms-flex-align: stretch!important;
+                align-items: stretch!important;
+            }
+        }
+    }
+
+    .widget.vertical-align-top &,
+    section.vertical-align-top > .container-data > & {
+        align-items: flex-start!important;
+        -ms-flex-align: start!important;
+    }
+
+    .widget.vertical-align-center &,
+    section.vertical-align-center > .container-data > & {
+        align-items: center!important;
+        -ms-flex-align: center!important;
+    }
+
+    .widget.vertical-align-bottom &,
+    section.vertical-align-bottom > .container-data > & {
+        align-items: flex-end!important;
+        -ms-flex-align: end!important;
+    }
+
+    .widget.full-page &,
+    section.full-page > .container-data > & {
+        min-height: 100vh;
+    }
+}
+
+footer section,
+main section {
+    .container-data {
+        > .row {
+            > div {
+                @extend %display-flex;
+                @extend %display-flex-wrap;
+            }
+        }
+    }
+
+    @mixin full-width {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .align-content-start {
+        align-items: flex-start;
+        -ms-flex-align: start;
+
+        > * {
+            @include full-width;
+        }
+    }
+
+    .align-content-center {
+        align-items: center;
+        -ms-flex-align: center;
+
+        > * {
+            @include full-width;
+        }
+    }
+
+    .align-content-end {
+        align-items: flex-end;
+        -ms-flex-align: end;
+
+        > * {
+            @include full-width;
+        }
+    }
+}

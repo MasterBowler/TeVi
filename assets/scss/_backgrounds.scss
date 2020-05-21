@@ -1,0 +1,38 @@
+.with-background {
+    position: relative;
+
+    %positioning {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    %measurement {
+        width: 100%;
+        height: 100%;
+    }
+
+    %positioning-measurement {
+        @extend %positioning;
+        @extend %measurement;
+    }
+
+    %block-positioning {
+        position: absolute;
+        display: block;
+        z-index: 0;
+    }
+
+    .background {
+        @extend %positioning-measurement;
+        @extend %block-positioning;
+        overflow: hidden;
+
+        &-image {
+            background-repeat: no-repeat; 
+            background-position: center center; 
+            background-size: cover;
+        }
+    }
+}

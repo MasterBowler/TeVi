@@ -1,0 +1,129 @@
+[type=button],
+[type=reset],
+[type=submit],
+button {
+    -webkit-appearance: button;
+}
+button {
+    overflow: visible;
+}
+
+.btn {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    border-width: 0px;
+    border-radius: 22px;
+    transition: color 0.2s linear;
+
+    &.btn-small {
+        @extend %font-button-small;
+        padding: 1rem 3.7rem;
+    }
+
+    &:focus {
+        box-shadow: none;
+    }
+
+    &.btn-stretch {
+        width: 100%;
+        display: block;
+    }
+
+    .text {
+        -ms-flex-pack: center;
+        justify-content: center;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    &, 
+    &:active, 
+    &:focus, 
+    &:active:focus {
+        background-color: $skin_color;
+        color: $text_color;
+    }
+
+    &:hover {
+        @media (hover: hover) {
+            color: $white_color;
+        }
+    }
+}
+
+.link {
+    transition: all 0s linear;
+
+    &, 
+    &:active, 
+    &:focus, 
+    &:active:focus,
+    &:hover {
+        color: $skin_color;
+    }
+
+    &:hover {
+        @media (hover: hover) {
+            text-decoration: underline;
+        }
+    }
+}
+
+.buttons {
+    @extend %no-size-element;
+    margin-bottom: -1rem;
+
+    .btn {
+        margin-bottom: 1rem;
+    }
+
+    .widget-footer > * + & {
+        margin-top: 2.9rem;
+    }
+
+    .widget-footer-right &,
+    .widget-buttons-right & {
+        text-align: right;
+    }
+
+    .widget-footer-center &,
+    .widget-buttons-center & {
+        text-align: center;
+    }
+
+    > .btn {
+        &:not(:nth-last-child(1)) {
+            margin-right: 1rem;
+
+            .widget-right &,
+            .widget-center &,
+            .widget-footer-right &,
+            .widget-footer-center &,
+            .widget-buttons-right &,
+            .widget-buttons-center & {
+                margin-right: 0;
+            }
+
+            &:not(:nth-child(1)) {
+                .widget-right &,
+                .widget-footer-right &,
+                .widget-buttons-right & {
+                    margin-left: 1rem;
+                }
+            }
+
+            .widget-center &,
+            .widget-footer-center &,
+            .widget-buttons-center & {
+                margin-left: 0.5rem;
+                margin-right: 0.5rem!important;
+            }
+        }
+    }
+}

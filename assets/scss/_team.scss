@@ -1,0 +1,124 @@
+.team-item {
+    position: relative;
+    overflow: hidden;
+    @extend %no-size-element;
+
+    .team-head {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        padding: 2.5rem 1rem 3rem;
+        background-color: rgba($text_color, 0.7);
+
+        @media (min-width: 768px) {
+            padding: 2.9rem 1.5rem 3.5rem;
+        }
+
+        * {
+            backface-visibility: hidden;
+        }
+
+        .team-title {
+            @extend %family-secondary;
+            font-size: 2rem;
+            line-height: 1.2;
+            font-weight: 700;
+            color: $white_color;
+
+            @media (min-width: 768px) {
+                font-size: 2.4rem;
+            }
+
+            .team-position {
+                @extend %family-primary;
+                font-size: 1.4rem;
+                font-weight: 400;
+                text-align: center;
+                text-transform: uppercase;
+                display: block;
+                margin-top: 0.7rem;
+
+                @media (min-width: 768px) {
+                    font-size: 1.6rem;
+                    margin-top: 1.2rem;
+                }
+            }
+
+            & + .team-social {
+                padding-top: 0.7rem;
+            }
+        }
+
+        .team-social {
+            @extend %display-flex;
+            @extend %display-flex-wrap;
+            -ms-flex-pack: center;
+            justify-content: center;
+            transform: translateY(3rem);
+            transition: transform 0.2s linear, margin-bottom 0.2s linear;
+            margin-bottom: -4.7rem;
+
+            @media (min-width: 768px) {
+                transform: translateY(3.5rem);
+            }
+
+            @at-root :hover#{&} {
+                transform: translateY(0);
+                margin-bottom: 0;
+            }
+
+            li {
+                &:not(:nth-last-of-type(1)) {
+                    margin-right: 1rem;
+
+                    @media (min-width: 768px) {
+                        margin-right: 1.5rem;
+                    }
+                }
+
+                a {
+                    @extend %display-flex;
+                    -ms-flex-pack: center;
+                    justify-content: center;
+                    -ms-flex-align: center;
+                    align-items: center;
+                    width: 4rem;
+                    height: 4rem;
+                    border-radius: 50%;
+                    transition: color 0.2s linear;
+                    background-color: $skin_color;
+                    color: $text_color;
+
+                    &:active {
+                        background-color: $skin_color;
+                        color: $text_color;
+                    }
+
+                    &:focus {
+                        background-color: $skin_color;
+                        color: $text_color;
+                    }
+
+                    &:active:focus {
+                        background-color: $skin_color;
+                        color: $text_color;
+                    }
+
+                    &:hover {
+                        @media (hover: hover) {
+                            color: $white_color;
+                        }
+                    }
+
+                    .icon {
+                        font-size: 1.6rem;
+                        top: auto;
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
+}

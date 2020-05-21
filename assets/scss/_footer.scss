@@ -1,0 +1,18 @@
+footer {
+    .copyright {
+        padding: 2.8rem 0;
+        text-align: center;
+
+        @media (min-width: 768px) {
+            text-align: left;
+        }
+
+        &.normal-color {
+            color: $text_color;
+        }
+
+        &.inverted-color {
+            color: $white_color;
+        }
+    }
+}
