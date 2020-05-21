@@ -1,0 +1,63 @@
+.widget {
+	margin-top: 6rem;
+	margin-bottom: 6rem;
+
+	@media (min-width: 768px) {
+		margin-top: 7rem;
+		margin-bottom: 7rem;
+	}
+
+	&.widget-more-margins {
+		margin-top: 7rem;
+		margin-bottom: 7rem;
+
+		@media (min-width: 768px) {
+			&.widget-more-margins {
+				margin-top: 9rem;
+				margin-bottom: 9rem;
+			}
+		}
+	}
+}
+
+@media (min-width: 0px) and (max-width: 575px) {
+	section > .container-fluid .row > div[class*="col-12"]:not(.col-empty) + div[class*="col-12"] > .widgets >  div:nth-of-type(1),
+	section > .container .row > div[class*="col-12"]:not(.col-empty) + div[class*="col-12"] > .widgets >  div:nth-of-type(1) {
+		margin-top: 0;
+	}
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+	section > .container-fluid .row > div[class*="col-sm-12"]:not(.col-empty) + div[class*="col-sm-12"] > .widgets >  div:nth-of-type(1),
+	section > .container .row > div[class*="col-sm-12"]:not(.col-empty) + div[class*="col-sm-12"] > .widgets >  div:nth-of-type(1) {
+		margin-top: 0;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	section > .container-fluid .row > div[class*="col-md-12"]:not(.col-empty) + div[class*="col-md-12"] > .widgets >  div:nth-of-type(1),
+	section > .container .row > div[class*="col-md-12"]:not(.col-empty) + div[class*="col-md-12"] > .widgets >  div:nth-of-type(1) {
+		margin-top: 0;
+	}
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	section > .container-fluid .row > div[class*="col-lg-12"]:not(.col-empty) + div[class*="col-lg-12"] > .widgets >  div:nth-of-type(1),
+	section > .container .row > div[class*="col-lg-12"]:not(.col-empty) + div[class*="col-lg-12"] > .widgets >  div:nth-of-type(1) {
+		margin-top: 0;
+	}
+}
+
+@media (min-width: 1200px) and (max-width: 1469px) {
+	section > .container-fluid .row > div[class*="col-xl-12"]:not(.col-empty) + div[class*="col-xl-12"] > .widgets >  div:nth-of-type(1),
+	section > .container .row > div[class*="col-xl-12"]:not(.col-empty) + div[class*="col-xl-12"] > .widgets >  div:nth-of-type(1) {
+		margin-top: 0;
+	}
+}
+
+@media (min-width: 1470px) {
+	section > .container-fluid .row > div[class*="col-xxl-12"]:not(.col-empty) + div[class*="col-xxl-12"] > .widgets >  div:nth-of-type(1),
+	section > .container .row > div[class*="col-xxl-12"]:not(.col-empty) + div[class*="col-xxl-12"] > .widgets >  div:nth-of-type(1) {
+		margin-top: 0;
+	}
+}

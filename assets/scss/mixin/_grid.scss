@@ -1,0 +1,185 @@
+@mixin gridBreakpointsMax($outside : false ) {
+
+	$breakingpoints : length($grid-breakpoints);
+
+	@each $revBreakpoint in $grid-breakpoints {
+		
+		$breakpointIndex : indexOfGrid($grid-breakpoints , $revBreakpoint);
+		$newIndex	 : $breakingpoints - $breakpointIndex + 1;
+		$breakpoint	 : nth($grid-breakpoints , $newIndex);
+
+		$prevBreakpoint  : gridGetPrevBreakpoint($breakpoint);
+		
+		$class		 : "";
+
+		@if $prevBreakpoint != null {
+			$class : map-get($prevBreakpoint , class);
+		}
+
+		$width : map-get($breakpoint , container);
+
+		@if $class != "" {
+			$class : "-" + $class ;
+		} @else {
+			$class : "";
+		}
+
+		@if $width > 0 {
+			$width : $width - 1;
+
+			@media(max-width: #{$width}px) {
+
+				@content($class : $class);
+			}
+		} @else {
+			@if $outside {
+				@content($class : $class);
+			}
+		}
+	}
+}
+
+@mixin gridBreakpointsMin() {
+
+	@each $breakpoint in $grid-breakpoints {
+	
+		$class : map-get($breakpoint , class);
+		$width : map-get($breakpoint , width);
+
+		@if $class != "" {
+			$class : "-" + $class;
+		} 
+
+		@if $width > 0 {
+
+			@media(min-width: #{$width}px) {
+
+				@content($class : $class);
+			}
+		} @else {
+			@content($class : $class);
+		}
+	}
+}
+
+@mixin gridBreakpointsMinMax() {
+
+	@each $breakpoint in $grid-breakpoints {
+
+		$next : gridGetNextBreakpoint($breakpoint);
+		$min-width : map-get($breakpoint , width);
+
+		$class : map-get($breakpoint , class);
+
+		@if $class != "" {
+			$class : "-" + $class;
+		} 
+
+		@if ($next != null) {
+			$max-width : map-get($next , width) - 1;
+
+			@media(min-width: #{$min-width}px) and (max-width: #{$max-width}px) {
+				@content($class : $class);
+			}
+		} @else {
+
+			@media(min-width: #{$min-width}px) {
+				@content($class : $class);
+			}
+
+		}
+	}
+}
+
+@mixin gridBreakpointsColumns($class) {
+	@each $column , $columnRate in $grid-columns-rates {
+		@content($column);
+	}
+}
+
+@mixin gridAllColumnClasses() {
+	%grid-column {
+	    @content;
+
+	}
+
+	@each $breakpoint in $grid-breakpoints {
+		$class : map-get($breakpoint , class);
+		@if $class != "" {
+			$class : "-" + $class;
+		} 
+
+		@each $column, $columnRate in $grid-columns-rates {
+			.col#{$class}-#{$column} {
+				@extend %grid-column;
+			}
+		}
+
+		.col#{$class},
+		.col#{$class}-auto {
+			@extend %grid-column;
+		}
+
+	}
+}
+
+@mixin gridMediaMinMax($class) {
+	$breakpoint : gridGetBreakpointByClass($class);
+
+	@if $breakpoint != null {
+		$nextBreakpoint  : gridGetNextBreakpoint($breakpoint);
+
+		$min-width : map-get($breakpoint , container);
+
+		@if ( $nextBreakpoint != null ) {
+			$max-width : map-get($nextBreakpoint , container);
+			$max-width : $max-width - 1;
+
+			@media(min-width: #{$min-width}px) and (max-width: #{$max-width}px) {
+				@content;
+			}
+		} @else {
+			@media(min-width: #{$min-width}px) {
+				@content;
+			}		
+		}
+	}
+}
+
+@mixin gridMediaMin($class) {
+	$breakpoint : gridGetBreakpointByClass($class);	
+
+	@if $breakpoint != null {
+		$width : map-get($breakpoint , container);
+		$prevBreakpoint : gridGetPrevBreakpoint($breakpoint);
+
+		@if ($prevBreakpoint != null) {
+			@if ($generate-files != "no-media" ) {
+				@media(min-width: #{$width}px) {
+					@content;
+				}
+			}
+		} @else {
+			@content;
+		}
+	}
+}
+
+
+@mixin gridMediaMax($class) {
+	$breakpoint : gridGetBreakpointByClass($class);
+	$nextBreakpoint : gridGetNextBreakpoint($breakpoint);
+
+
+	@if $nextBreakpoint != null {
+		$width : map-get($nextBreakpoint , container);
+
+		$width : $width - 1;
+
+		@media(max-width: #{$width}px) {
+			@content;
+		}
+	} @else {
+		@content;
+	}
+}

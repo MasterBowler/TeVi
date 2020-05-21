@@ -1,0 +1,96 @@
+.form {
+    .generic-text + & {
+        margin-top: 2.9rem;
+    }
+
+    .form-line {
+        padding-bottom: 3rem;
+
+        &.form-buttons {
+            padding-bottom: 0;
+            padding-top: 0.5rem;
+
+            .widget-form-buttons-center & {
+                text-align: center;
+            }
+
+            .widget-form-buttons-right & {
+                text-align: right;
+            }
+
+            > .btn {
+                &:not(:nth-last-child(1)) {
+                    margin-right: 1rem;
+
+                    .widget-right &,
+                    .widget-center &,
+                    .widget-form-buttons-right &,
+                    .widget-form-buttons-center & {
+                        margin-right: 0;
+                    }
+                }
+
+                &:not(:nth-child(1)) {
+                    .widget-right &,
+                    .widget-form-buttons-right & {
+                        margin-left: 1rem;
+                    }
+                }
+
+                .widget-center &,
+                .widget-form-buttons-center & {
+                    margin-left: 0.5rem;
+                    margin-right: 0.5rem!important;
+                }
+            }
+        }
+
+        .form-line-group {
+            .form-item {
+                font-size: 1.6rem;
+                font-weight: 400;
+                border-style: solid;
+                border-width: 1px;
+                outline-style: none!important;
+                min-height: 4.4rem;
+                width: 100%;
+                border-radius: 22px;
+                padding: 0 2.5rem;
+
+                &[name="email"] {
+                    &:focus {
+                        font-weight: 600;
+                    }
+                }
+
+                background-color: rgba($text_color, 0.05);
+                color: $text_color;
+                border-color: rgba($skin_color, 0);
+
+                &::-webkit-input-placeholder {
+                    color: $text_color;
+                }
+                &:-moz-placeholder {
+                    color: $text_color;
+                }
+                &::-moz-placeholder {
+                    color: $text_color;
+                }
+                &:-ms-input-placeholder {
+                    color: $text_color;
+                }
+
+                &:focus {
+                    border-color: $skin_color;
+                }
+            }
+
+            textarea {
+                &.form-item {
+                    padding: 1.2rem 2.5rem;
+                    resize: none;
+                }
+            }
+        }
+    }
+}

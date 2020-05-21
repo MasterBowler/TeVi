@@ -1,0 +1,103 @@
+@mixin -widget-align($align) {
+	&.widget-#{$align},
+	&.widget-title-#{$align} .widget-head .title,
+	&.widget-footer-#{$align} .widget-footer,
+	&.widget-buttons-#{$align} .widget-footer .buttons {
+		text-align: #{$align};
+	}
+}
+
+.widget {
+	position: relative;
+
+	.widget-head {
+		position: relative;
+
+		.icon-title {
+			@extend %no-size-element;
+
+			.icon {
+				top: auto;
+				margin-right: 0;
+
+				&.svgicon {
+					svg {
+						width: 6rem;
+						height: 5rem;
+
+						@media (min-width: 768px) {
+							width: 8rem;
+							height: 6.7rem;
+						}
+
+						@media (min-width: 992px) {
+							width: 10rem;
+							height: 8.4rem;
+						}
+
+						@media (min-width: 1200px) {
+							width: 12rem;
+							height: 10.1rem;
+						}
+
+						@media (min-width: 1470px) {
+							width: 15.4rem;
+							height: 12.9rem;
+						}
+					}
+				}
+			}
+
+			& + .title {
+				margin-top: 3rem;
+
+				@media (min-width: 1200px) {
+					margin-top: 3.3rem;
+				}
+
+				@media (min-width: 1470px) {
+					margin-top: 3.5rem;
+				}
+			}
+		}
+
+		& + .widget-body {
+			padding-top: 2.5rem;
+
+			@at-root .widget-title-big#{&} {
+				padding-top: 2.4rem;
+			}
+
+			@at-root .widget-title-huge#{&} {
+				padding-top: 3rem;
+			}
+		}
+
+		.title {
+			position: relative;
+			@extend %font-widget;
+
+			@at-root .widget-title-big#{&} {
+				@extend %font-widget-big;
+			}
+
+			@at-root .widget-title-huge#{&} {
+				@extend %font-widget-huge;
+			}
+
+			color: $skin_color;
+		}
+	}
+
+	.widget-body {
+		position: relative;
+
+		& + .widget-footer {
+			padding-top: 2.9rem;
+		}
+	}
+
+	@include -widget-align('left');
+	@include -widget-align('center');
+	@include -widget-align('right');
+}

@@ -1,0 +1,74 @@
+
+@function gridGridGetColumnRate($column) {	
+	@return  map-get($grid-columns-rates , $column);
+}
+
+
+@function gridGetNextBreakpoint($breakpoint) {
+
+	$index	: indexOfGrid($grid-breakpoints , $breakpoint);
+
+	@if $index != null and $index < length($grid-breakpoints) {
+		@return nth($grid-breakpoints , $index + 1);
+	} @else {
+		@return null;
+	}
+
+} 
+
+@function gridGetPrevBreakpoint($breakpoint) {
+
+	$index	: indexOfGrid($grid-breakpoints , $breakpoint);
+
+	@if $index > 1 {
+		@return nth($grid-breakpoints , $index - 1);
+	} @else {
+		@return null;
+	}
+} 
+
+@function gridGetPrevBreakpointByIndex($index) {
+
+	@if $index != null and $index > 0 {
+		@return nth($grid-breakpoints , $index - 1);
+	} @else {
+		@return null;
+	}
+	
+}
+
+@function gridGetBreakpointByClass($class) {
+	@each $breakpoint in $grid-breakpoints {
+		@if map-get($breakpoint , class) == $class {
+			@return $breakpoint;
+		}
+	}
+
+	@return null;
+}
+
+@function gridGetMaxBreakpoint() {
+	@return map-get(nth($grid-breakpoints , length($grid-breakpoints)) , class);
+}
+
+@function indexOfGrid($breakpoints : $grid-breakpoints , $breakingpoint) {
+
+	$pos : null;
+
+	$class : map-get($breakingpoint , class);
+
+	@each $current in $breakpoints {
+
+		@if $pos == null {
+			$pos : 1;
+		} @else {
+			$pos : $pos + 1;
+		}
+
+		@if map-get($current , class) == $class {
+			@return $pos;
+		}
+	}
+
+	@return null;
+}

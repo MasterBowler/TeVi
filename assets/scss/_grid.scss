@@ -1,0 +1,64 @@
+html {
+	box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.container {
+  width: 100%;
+  padding-right: #{$grid-gutter}px;
+  padding-left: #{$grid-gutter}px;
+  margin-right: auto;
+  margin-left: auto;
+} 
+
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -#{$grid-gutter}px;
+  margin-left: -#{$grid-gutter}px;
+}
+
+
+@include gridAllColumnClasses() {
+	position: relative;
+	width: 100%;
+	padding-right: #{$grid-gutter}px;
+	padding-left: #{$grid-gutter}px;  	
+}
+
+@include gridBreakpointsMin() using ($class) {
+	$breakpoint : gridGetBreakpointByClass(str-replace($class , "-" , ""));
+
+	@if ( ($breakpoint != null) and (map-get($breakpoint , container) > 0) ) {
+		.container {
+			width: #{map-get($breakpoint , container)}px;
+		}
+	}
+
+	.col#{$class} {
+	  -ms-flex-preferred-size: 0;
+	  flex-basis: 0;
+	  -ms-flex-positive: 1;
+	  flex-grow: 1;
+	  max-width: 100%;
+	}
+
+
+
+	@include gridBreakpointsColumns($class) using ($column) {
+		$width: gridGridGetColumnRate($column);
+
+		.col#{$class}-#{$column} {
+			-ms-flex: 0 0 #{$width}#{'%'};			
+			flex: 0 0 #{$width}#{'%'};
+			max-width: #{$width}#{'%'};
+		}
+	}
+}

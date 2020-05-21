@@ -1,0 +1,69 @@
+.features-element {
+    position: relative;
+    padding-top: 0.8rem;
+    padding-left: 5.9rem;
+    @extend %no-size-element;
+
+    @media (min-width: 768px) {
+        padding-top: 0.7rem;
+        padding-left: 6.8rem;
+    }
+
+    & + & {
+        margin-top: 2.2rem;
+    }
+
+    .title {
+        color: $skin_color;
+
+        a {
+            display: block;
+            transition: all 0s linear;
+
+            &,
+            &:active,
+            &:focus,
+            &:active:focus {
+                color: $skin_color;
+            }
+
+            &:hover {
+                @media (hover: hover) {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        & + .generic-text {
+            padding-top: 1rem;
+
+            @media (min-width: 768px) {
+                padding-top: 1.3rem;
+            }
+        }
+    }
+
+    .icon-parent {
+        position: absolute;
+        top: 0.6rem;
+        left: 0;
+        width: 4.3rem;
+        height: 3.6rem;
+        margin-top: 0;
+        transition: margin 0.2s linear;
+
+        @at-root :hover#{&} {
+            margin-top: -0.6rem;
+        }
+
+        .icon {
+            top: auto;
+            margin-right: 0;
+
+            svg {
+                width: 4.3rem;
+                height: 3.6rem;
+            }
+        }
+    }
+}
