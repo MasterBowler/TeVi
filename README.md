@@ -12,14 +12,16 @@ We focused on creating a highly user friendly and professional website which con
 
 Global Statistics: 
 The page has a map view and an advanced search option for the attacks and 3 chart views made using ChartJs, as it was listed as accepted in the requirements list. The user can download the stats in the given formats.
+
 Evolution: 
 The page has some information regarding the evolution of terrorism in the last years. The source is listed and the button redirects to the article from which it was taken.
-Evolution: 
+
+Prevention Measures: 
 The page has some information regarding the official prevention measures. The source is listed and the button redirects to the article from which it was taken.
+
 Who are We: 
 The page is dedicated to our team and ways to contact us easily.
-Who are We: 
-The page is dedicated to our team and ways to contact us easily.
+
 Contact: 
 The page is dedicated to contacting us.
 
