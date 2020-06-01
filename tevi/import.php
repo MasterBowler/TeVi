@@ -15,9 +15,6 @@ use \App\Tevi\Model;
 */
 class Import extends Model{
 
-	static function newInstance() {
-		return new self();
-	}
 
 	/**
 	* description

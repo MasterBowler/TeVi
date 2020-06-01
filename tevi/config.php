@@ -14,6 +14,10 @@ class Config {
 
 	public static $table_attacks = "attacks";
 
+	public static $contact_to		= "elisa.giurgea@gmail.com";
+	public static $contact_to_name	= "Elisa Giurgea";
+	public static $contact_subject	= "New message from site!";
+
 }
 
 

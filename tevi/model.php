@@ -44,5 +44,10 @@ class Model{
 
 	}
 
+
+	static function newInstance() {
+		return new static();
+	}
+
 	
 }

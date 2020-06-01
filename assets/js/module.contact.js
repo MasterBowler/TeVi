@@ -10,7 +10,7 @@ moduleContact.submit = function(event) {
 	var variables = new FormData();
 
 	variables.append("first-name" , document.getElementById("first-name").value);
-	variables.append("last_name" , document.getElementById("last-name").value);
+	variables.append("last-name" , document.getElementById("last-name").value);
 	variables.append("university" , document.getElementById("university").value);
 	variables.append("class" , document.getElementById("class").value);
 	variables.append("email" , document.getElementById("email").value);
@@ -42,6 +42,11 @@ moduleContact.parseFormResponse = function(response) {
 		paras[0].parentNode.removeChild(paras[0]);
 	}
 
+	if (!response.status){
+		moduleContact.mainMessage("error" , "Unknown error");
+		return false;
+	}
+	
 	if (response.status == "error"){ 
 		for ( field in response.fields ) {
 
@@ -52,12 +57,27 @@ moduleContact.parseFormResponse = function(response) {
 			errorHolder.className = "form-line-error";
 			errorHolder.innerHTML = response.fields[field];
 		
-			fieldHolder.appendChild(errorHolder);
-						
-			console.log(field , response.fields[field]);
+			fieldHolder.appendChild(errorHolder);						
 		}
-	}	
-	console.log(response);	
+
+		if (response.msg){
+			moduleContact.mainMessage("error" , response.msg);
+		}
+	} else {
+		moduleContact.mainMessage("success" , response.msg);
+	}
+}
+
+moduleContact.mainMessage = function(type , text) {
+	var messageHolder = document.getElementsByClassName("form-response")[0];
+		messageData = document.createElement('div');
+
+	messageData.className = type;
+	messageData.innerHTML = text;
+
+	//delete any previous error/sucess message if exists
+	messageHolder.innerHTML = "";
+	messageHolder.appendChild(messageData);
 }
 
 moduleContact.removeErrorMessage = function(event) {

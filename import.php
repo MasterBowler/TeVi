@@ -3,8 +3,9 @@
 include "lib/autoload.php";
 include "lib/debug.php";
 
-use \App\Tevi\Import;
+use \App\Tevi\Tevi;
 
-Import::newInstance()
+Tevi::newInstance()
+	->setSection("import")
 	->Run();
 
