@@ -87,22 +87,26 @@ moduleContact.removeErrorMessage = function(event) {
 moduleContact.initListeners = function() {
 
 	var  
-		form = document.getElementsByClassName("form-contact")[0],
+		form = document.getElementsByClassName("form-contact")[0];
+
+	if (form && form.length){
 		fields = form.querySelectorAll(".form-item");
-	
-	form.addEventListener(
-		"submit",
-		this.submit
-	);
 
-	for (i = 0 ; i < fields.length ; i++){
-		console.log(fields[i]);
-
-		fields[i].addEventListener(
-			"click",
-			moduleContact.removeErrorMessage
+		form.addEventListener(
+			"submit",
+			this.submit
 		);
-	}	
+
+		for (i = 0 ; i < fields.length ; i++){
+			console.log(fields[i]);
+
+			fields[i].addEventListener(
+				"click",
+				moduleContact.removeErrorMessage
+			);
+		}	
+	}
+	
 }
 
 moduleContact.runOnLoad = function() {	
