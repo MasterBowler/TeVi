@@ -7,9 +7,7 @@
         <link rel="stylesheet" href="assets/out/style.css">
         <link rel="stylesheet" href="assets/chart.js/Chart.css">
 
-		<!--<script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>-->
 		<script src="https://googlemaps.github.io/v3-utility-library/packages/markerclustererplus/dist/markerclustererplus.min.js"></script>
-
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXFrIlAJ6Qgvu5y23Q7zC7xNMjO-Er4m4"></script>
 
 
@@ -80,11 +78,9 @@
                                 </div>
                                 <div class="widget-body">
                                     <div class="generic-text inverted-color">
-                                        <p>Assertively repurpose empowered models vis-a-vis backend methodologies. Dynamically communicate accurate
-                                            vortals rather
-                                            than out-of-the-box information. Efficiently expedite virtual architectures before open-source
-                                            methodologies. Credibly
-                                            envisioneer robust infomediaries through front-end quality vectors.</p>
+                                        <p>Faced with the challenge of developing such a complex and helpful web application, we decided to incorporate 
+					different filters and parameters that can aid the research of visitors interested in the topic at hand. 
+					We also made sure to include content that we considered would compliment the topic well.</p>
                                     </div>
                                 </div>
                                 <div class="widget-footer">
@@ -232,15 +228,12 @@
                                                 <form action="" class="form">
                                                     <div class="row">
                                                         <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4">
-                                                            <div class="form-line-select">
+                                                            <div class="form-line-select" id="filter-casualties">
                                                                 <label>Victims of the attack</label>
                                                                 <div class="form-line-group">
                                                                     <div class="form-item-select">
-                                                                        <select name="victims">
-                                                                            <option value="casualties">All casualties</option>
-                                                                            <option value="fatal">Fatal</option>
-                                                                            <option value="nonfatal">Non Fatal</option>
-                                                                            <option value="wthree">Suicide</option>
+                                                                        <select name="victims" id="victims">
+																			<option value="">[ select ]</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -288,7 +281,7 @@
 
                                                         <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4">
                                                             <div class="form-line-select">
-                                                                <label>region</label>
+                                                                <label>Region</label>
                                                                 <div class="form-line-group">
                                                                     <div class="form-item-select">
                                                                         <select name="region_type" id="region">
@@ -357,12 +350,11 @@
 
                                                         <div class="results-element-inner">
                                                             <div class="result-element">
-                                                                <h4 class="title">MARCH 3rd, 200</h4>
+                                                                <h4 class="title">MARCH 3rd, 2000</h4>
                                                                 <div class="generic-text inverted-color">
                                                                     <ul>
                                                                         <li><span class="icon icomoon icon-home"></span><b>Location:</b> Kabul, Afghanistan</li>
                                                                         <li><span class="icon icomoon icon-user-check"></span><b>Group:</b> <span class="yellow">IS-KP</span></li>
-                                                                        <li><span class="icon icomoon icon-knife"></span><b>Group:</b> IS-KP</li>
                                                                         <li><span class="icon icomoon icon-user-minus"></span><b>Fatalities:</b> 27</li>
                                                                     </ul>
                                                             
@@ -372,7 +364,6 @@
                                                                 </div>
                                                             
                                                                 <ul class="links">
-                                                                    <li><a href="#"><span class="icon icomoon icon-plus3"></span></a></li>
                                                                     <li><a href="#"><span class="icon icomoon icon-location"></span></a></li>
                                                                 </ul>
                                                             </div>
@@ -388,33 +379,46 @@
 												<div class="col-6">
 													<div class="graph-item">	
 														<canvas id="graph_region"></canvas>
+
+														<button class="download-button" data-filename="chart-download" data-type="download" data-download="csv" data-target="graph_region">csv</button>
+														<button class="download-button" data-filename="chart-download" data-type="download" data-download="svg" data-target="graph_region">svg</button>
+														<button class="download-button" data-filename="chart-download" data-type="download" data-download="png" data-target="graph_region">png</button>
 													</div>
 												</div>
 												<div class="col-6">
 													<div class="graph-item">	
 														<canvas id="graph_incidents"></canvas>
+
+														<button class="download-button" data-filename="chart-download" data-type="download" data-download="csv" data-target="graph_incidents">csv</button>
+														<button class="download-button" data-filename="chart-download" data-type="download" data-download="svg" data-target="graph_incidents">svg</button>
+														<button class="download-button" data-filename="chart-download" data-type="download" data-download="png" data-target="graph_incidents">png</button>
+
 													</div>
 												</div>
 												<div class="col-6">
 													<div class="graph-item">	
 														<canvas id="graph_attacks"></canvas>
+
+														<button class="download-button" data-filename="chart-download" data-type="download" data-download="csv" data-target="graph_attacks">csv</button>
+														<button class="download-button" data-filename="chart-download" data-type="download" data-download="svg" data-target="graph_attacks">svg</button>
+														<button class="download-button" data-filename="chart-download" data-type="download" data-download="png" data-target="graph_attacks">png</button>
+
 													</div>
 												</div>
 
 												<div class="col-6">
 													<div class="graph-item">	
 														<canvas id="graph_targets"></canvas>
+
+														<button class="download-button" data-filename="chart-download" data-type="download" data-download="csv" data-target="graph_targets">csv</button>
+														<button class="download-button" data-filename="chart-download" data-type="download" data-download="svg" data-target="graph_targets">svg</button>
+														<button class="download-button" data-filename="chart-download" data-type="download" data-download="png" data-target="graph_targets">png</button>
+
 													</div>
 												</div>
 
 											</div>
 										</div>
-
-
-
-                                        <div class="export-statistics">
-                                            <a href="#"><span class="icon icomoon icon-printer2"></span> Export Statistics</a>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
