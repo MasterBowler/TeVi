@@ -224,14 +224,14 @@
                                                     <div class="row">
                                                         <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4">
                                                             <div class="form-line-select">
-                                                                <label>Type of Weapon Used</label>
+                                                                <label>Victims of the attack</label>
                                                                 <div class="form-line-group">
                                                                     <div class="form-item-select">
-                                                                        <select name="weapon">
-                                                                            <option value="weapon">Weapon Type Example</option>
-                                                                            <option value="wone">Weapon one</option>
-                                                                            <option value="wtwo">Weapon two</option>
-                                                                            <option value="wthree">Weapon three</option>
+                                                                        <select name="victims">
+                                                                            <option value="casualties">All casualties</option>
+                                                                            <option value="fatal">Fatal</option>
+                                                                            <option value="nonfatal">Non Fatal</option>
+                                                                            <option value="wthree">Suicide</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -240,14 +240,11 @@
 
                                                         <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4">
                                                             <div class="form-line-select">
-                                                                <label>Type of Weapon Used</label>
+                                                                <label>Time it happened</label>
                                                                 <div class="form-line-group">
                                                                     <div class="form-item-select">
-                                                                        <select name="months">
-                                                                            <option value="six">Last 6 months</option>
-                                                                            <option value="seven">Last 7 months</option>
-                                                                            <option value="eight">Last 8 months</option>
-                                                                            <option value="nine">Last 9 months</option>
+                                                                        <select name="period" id="period">
+                                                                            <option value="">[ select ]</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -256,14 +253,50 @@
 
                                                         <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4">
                                                             <div class="form-line-select">
-                                                                <label>Attack Reason</label>
+                                                                <label>Type of attack</label>
                                                                 <div class="form-line-group">
                                                                     <div class="form-item-select">
-                                                                        <select name="months">
-                                                                            <option value="political">Political View</option>
-                                                                            <option value="food">Food</option>
-                                                                            <option value="water">Water</option>
-                                                                            <option value="air">Air</option>
+                                                                        <select name="attack_type" id="attack_type">
+                                                                            <option value="">[ select ]</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4">
+                                                            <div class="form-line-select">
+                                                                <label>Type of weapon</label>
+                                                                <div class="form-line-group">
+                                                                    <div class="form-item-select">
+                                                                        <select name="weapon_type" id="weapon_type">
+                                                                            <option value="">[ select ]</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4">
+                                                            <div class="form-line-select">
+                                                                <label>region</label>
+                                                                <div class="form-line-group">
+                                                                    <div class="form-item-select">
+                                                                        <select name="region_type" id="region">
+                                                                            <option value="">[ select ]</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4">
+                                                            <div class="form-line-select">
+                                                                <label>Country</label>
+                                                                <div class="form-line-group">
+                                                                    <div class="form-item-select">
+                                                                        <select name="weapon_type" id="country">
+                                                                            <option value="">[ select ]</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
