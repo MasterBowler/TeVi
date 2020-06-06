@@ -9439,8 +9439,20 @@ section.no-margin-bottom .widget {
   border-bottom-color: transparent;
 }
 
+.graphs {
+  position: relative;
+  display: none;
+}
+.graphs.active {
+  display: block;
+}
+
 .map-location {
   position: relative;
+  display: none;
+}
+.map-location.active {
+  display: block;
 }
 .map-location .location-results-element {
   position: absolute;
@@ -9450,6 +9462,10 @@ section.no-margin-bottom .widget {
   height: 100%;
   max-height: 100%;
   background-color: rgba(30, 30, 30, 0.8);
+  display: none;
+}
+.map-location .location-results-element.active {
+  display: block;
 }
 .map-location .location-results-element .btn--close {
   position: absolute;

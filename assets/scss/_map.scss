@@ -242,8 +242,22 @@
     }
 }
 
+.graphs {
+    position: relative;
+    display: none;
+
+    &.active {
+    	display: block;
+    }
+}
+
 .map-location {
     position: relative;
+    display: none;
+
+    &.active {
+    	display: block;
+    }
 
     .location-results-element {
         position: absolute;
@@ -253,6 +267,12 @@
         height: 100%;
         max-height: 100%;
         background-color: rgba($text_color_2, 0.8);
+
+	display: none;
+
+	&.active {
+		display: block;
+	}
 
         .btn--close {
             position: absolute;

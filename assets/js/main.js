@@ -1,5 +1,6 @@
 var modules = [
 		"core" , 
+		"utils" , 
 		"module.navigation",
 		"module.filter",
 		"module.contact"
