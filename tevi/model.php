@@ -50,4 +50,24 @@ class Model{
 	}
 
 	
+	/**
+	* description
+	*
+	* @param
+	*
+	* @return
+	*
+	* @access
+	*/
+	function JSON($data , $headers = true) {
+
+		if ($headers) {
+			header('Content-Type: application/json');
+		}
+		
+		echo json_encode($data);
+		die();
+
+	}
+	
 }

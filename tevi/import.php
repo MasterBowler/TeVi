@@ -104,11 +104,12 @@ class Import extends Model{
 							`weapon_type_text`,
 							`weapon_subtype_text`,
 							`target_type_text`,
-							`attack_type_text`
+							`attack_type_text`,
+							`nkill`,
 						)
 
 						VALUES
-						( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? )
+						( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?)
 					");
 
 					$date = mktime(0,0,0,$row['iday'] , $row['imonth'] , $row['iyear']);
@@ -134,6 +135,7 @@ class Import extends Model{
 						$row['weapsubtype1_txt'],
 						$row['targtype1'],
 						$row['targtype1_txt']
+						$row['nkill']
 					);				
 
 					$query->execute();
@@ -196,6 +198,7 @@ class Import extends Model{
 				  `weapon_subtype_text` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
 				  `target_type_text` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
 				  `attack_type_text` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+				  `nkill` int(11) DEFAULT NULL,
 				  PRIMARY KEY (`event_id`)
 				) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
 
