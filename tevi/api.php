@@ -205,6 +205,37 @@ class Api extends Model{
 
 		return $response;
 	}
+
+	/**
+	* description
+	*
+	* @param
+	*
+	* @return
+	*
+	* @access
+	*/
+	function getVictimsTypes() {
+
+		$periods = [
+			"1"	=> "Fatal",
+			"2"	=> "Non Fatal",
+			"3"	=> "Suicide",
+		];
+
+		$response = [];
+
+		if (is_array($periods)) {
+			foreach ($periods as $key => $val) {
+				$response[] = [
+					"value" => $key,
+					"title" => $val,
+				];
+			}			
+		}
+
+		return $response;
+	}
 	
 
 
@@ -222,6 +253,7 @@ class Api extends Model{
 		return $this->Json([
 			"status"		=> "success",
 			"options" => [
+				"victims"		=> $this->getVictimsTypes(),
 				"weapons"		=> $this->getWeaponTypes(),
 				"countries"		=> $this->getCountries(),
 				"regions"		=> $this->getRegions(),
@@ -303,30 +335,55 @@ class Api extends Model{
 		}
 
 //		debug($params,1);
-	
+
+		$cond2 = $cond;
+		if (isset($query["victims"]) && $query["victims"]) {
+		
+
+			switch ($query["victims"]) {
+				case "1":
+					$cond2[] = " nkill > 0 ";
+				break;
+
+				case "2":
+					$cond2[] = " nkill = 0 ";
+				break;
+
+				case "3":
+					$cond2[] = " suicide > 0 ";
+				break;
+			}			
+		}
+		
 		$results = $this->db->QFetchRowArray(
-			"SELECT * from attacks "	. (count($cond ) ? " WHERE" . implode(" AND" , $cond ) : "") . " ",
+			"SELECT * from attacks "	. (count($cond2 ) ? " WHERE" . implode(" AND" , $cond2 ) : "") . " ",
 			$params
 		);
-
+	
+		
 		$events = null;
 
 		if (is_array($results)) {
 			foreach ($results as $key => $val) {
-				$events[] = [
-					"event_id"	=> $val["event_id"],
+				$events[$val["lat"] . "-" . $val["long"]] = [
+					"event_id"	=> "xx",
 					"lat"		=> $val["lat"],
 					"long"		=> $val["long"],
 				];
 			}
 			
+			$results = null;
 		}
-		
+
+		$graphResults = $this->db->QFetchRowArray(
+			"SELECT * from attacks "	. (count($cond ) ? " WHERE" . implode(" AND" , $cond ) : "") . " ",
+			$params
+		);		
 
 		return $this->Json([
 			"status"	=> "success",
-			//"results"	=> $events,
-			"graphs"	=> $this->getGraphs($results)
+			"results"	=> array_values($events),
+			"graphs"	=> $this->getGraphs($graphResults)
 		]);
 
 
