@@ -377,7 +377,8 @@ class Api extends Model{
 		return [
 			"graph_1"	=> $this->getGraph1($results),
 			"graph_2"	=> $this->getGraph2($results),
-//			"graph_3"	=> $this->getGraph3($results)
+			"graph_3"	=> $this->getGraph3($results),
+			"graph_4"	=> $this->getGraph4($results)
 		];
 	}
 	
@@ -392,6 +393,59 @@ class Api extends Model{
 	* @access
 	*/
 	function getGraph1(&$results) {
+
+		$data = [
+		];
+
+		//$labels = ['Success' , 'Suicide' , 'Kills'];
+
+		foreach ($results as $key => $val) {
+			if (!isset($data["success"][$val['attack_type_text']])) {
+				$data["success"][$val['attack_type_text']] = 0;
+				$data["suicide"][$val['attack_type_text']] = 0;
+				$data["nkill"][$val['attack_type_text']] = 0;
+			}
+
+			$data["success"][$val['attack_type_text']] += $val["success"];
+			$data["suicide"][$val['attack_type_text']] += $val["suicide"];
+			$data["nkill"][$val['attack_type_text']] += $val["nkill"];
+			
+		}
+
+		$datasets = [];		
+
+		$labels = array_keys($data["success"]);
+
+		foreach ($data as $key => $val) {
+
+			$datasets[] = [
+				"fill"	=>  true , 
+				"label"	=>  $key , 
+				"data"	=> array_values($val),
+				"backgroundColor"	=> $this->rand_color()
+			];
+
+			//$labels[] = $key;
+		}
+
+		return [
+			"datasets"	=> $datasets,
+			"labels"	=> $labels
+		];
+	}
+
+
+
+	/**
+	* description
+	*
+	* @param
+	*
+	* @return
+	*
+	* @access
+	*/
+	function old_getGraph1(&$results) {
 
 		$data = [
 		];
@@ -431,7 +485,6 @@ class Api extends Model{
 			"labels"	=> $labels
 		];
 	}
-
 
 
 	/**
@@ -489,7 +542,124 @@ class Api extends Model{
 			"labels"	=> array_values($labels)
 		];
 	}
+
 	
+	/**
+	* description
+	*
+	* @param
+	*
+	* @return
+	*
+	* @access
+	*/
+	function getGraph3(&$results) {
+
+		$data = [
+			'Success' => [],
+			'Suicide' => [],
+			'Kills' => [],
+		];
+
+		$labels = [];
+
+		foreach ($results as $key => $val) {
+			$graphLabel = $val['region_text'];
+
+			if (!isset($data['Success'][$graphLabel])) {
+				$data['Success'][$graphLabel] = 0;
+				$data['Suicide'][$graphLabel] = 0;
+				$data['Kills'][$graphLabel] = 0;
+			}
+
+			$data['Success'][$graphLabel] += $val["success"];
+			$data['Suicide'][$graphLabel] += $val["suicide"];
+			$data['Kills'][$graphLabel] += $val["nkill"];
+
+			$labels[$graphLabel] = $graphLabel;
+			
+		}
+
+		$datasets = [];
+
+		foreach ($data as $key => $val) {
+			//$labels[] = $key;
+
+			$datasets[] = [
+				"fill"	=>  true , 
+				"label"	=>  $key , 
+				"data"	=> array_values($val),
+				"backgroundColor"	=> $this->rand_color()
+			];
+
+			//$labels[] = $key;
+		}
+
+		return [
+			"datasets"	=> $datasets,
+			"labels"	=> array_values($labels)
+		];
+	}
+
+
+
+	
+	/**
+	* description
+	*
+	* @param
+	*
+	* @return
+	*
+	* @access
+	*/
+	function getGraph4(&$results) {
+
+		$data = [
+		];
+
+		//$labels = ['Success' , 'Suicide' , 'Kills'];
+
+		foreach ($results as $key => $val) {
+			if (!isset($data[$val['attack_type_text']])) {
+				$data[$val['attack_type_text']] = 0;
+			}
+
+			$data[$val['attack_type_text']] += $val["nkill"];
+			
+		}
+
+		$datasets = [];		
+		$labels = array_keys($data);
+
+		$_data  = [];
+		$_bg = [];
+
+		foreach ($data as $key => $val) {
+
+			$_data[] = $val;
+			$_bg[] = $this->rand_color();
+
+/*
+			$datasets[] = [
+				"fill"	=>  true , 
+				"label"	=>  $key , 
+				"data"	=> [$val],//array_values($val),
+				"backgroundColor"	=> $this->rand_color()
+			];
+*/
+			//$labels[] = $key;
+		}
+
+		return [
+			"datasets"	=> [[
+				"data"	=> $_data,
+				"backgroundColor" => $_bg,
+			]],
+			"labels"	=> $labels
+		];
+	}
+
 
 	private function rand_color() {
 		return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
