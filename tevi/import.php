@@ -82,7 +82,8 @@ class Import extends Model{
 
 					$row = $this->processRecord($header , $data);
 
-					$query->reset();
+					//$query->reset();
+					$query = $this->db->conn->stmt_init();
 					$query->prepare("
 						INSERT INTO attacks
 						(
@@ -105,7 +106,7 @@ class Import extends Model{
 							`weapon_subtype_text`,
 							`target_type_text`,
 							`attack_type_text`,
-							`nkill`,
+							`nkill`
 						)
 
 						VALUES
@@ -115,7 +116,7 @@ class Import extends Model{
 					$date = mktime(0,0,0,$row['iday'] , $row['imonth'] , $row['iyear']);
 
 					$query->bind_param(
-						"iisissddiiiiiiissss",
+						"iisissddiiiiiiissssd",
 						$date,
 						$row['region'],
 						$row['region_txt'],
@@ -134,7 +135,7 @@ class Import extends Model{
 						$row['weaptype1_txt'],
 						$row['weapsubtype1_txt'],
 						$row['targtype1'],
-						$row['targtype1_txt']
+						$row['targtype1_txt'],
 						$row['nkill']
 					);				
 

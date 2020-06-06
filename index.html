@@ -5,6 +5,15 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="assets/out/style.css">
+        <link rel="stylesheet" href="assets/chart.js/Chart.css">
+
+		<!--<script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>-->
+		<script src="https://googlemaps.github.io/v3-utility-library/packages/markerclustererplus/dist/markerclustererplus.min.js"></script>
+
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXFrIlAJ6Qgvu5y23Q7zC7xNMjO-Er4m4"></script>
+
+
+        <script src="assets/chart.js/Chart.bundle.min.js"></script>
         <script src="assets/js/main.js"></script>
     </head>
 
@@ -309,45 +318,22 @@
 
                                         <div class="map-navigation">
                                             <div class="use-current-location">
-                                                <a href="#"><span class="icon icomoon icon-location"></span> Use current Location</a>
+                                                <a href="#" id="read-current-location"><span class="icon icomoon icon-location"></span> Use current Location</a>
                                             </div>
 
                                             <div class="map-views">
                                                 <ul>
-                                                    <li><a href="#"><span class="icon icomoon icon-sphere"></span></a><span class="text">Map View</span></li>
-                                                    <li><a href="#"><span class="icon icomoon icon-stats-growth"></span></a><span class="text">Growth View</span></li>
-                                                    <li><a href="#"><span class="icon icomoon icon-stats-bars3"></span></a><span class="text">Bars View</span></li>
+                                                    <li><a href="#" id="tab-show-map"><span class="icon icomoon icon-sphere"></span></a><span class="text">Map View</span></li>
+                                                    <li><a href="#" id="tab-show-graphs"><span class="icon icomoon icon-stats-bars3"></span></a><span class="text">Charts View</span></li>
                                                 </ul>
                                             </div>
                                         </div>
                                 
-                                        <div class="map-location">
-                                            <div id="map">
-                                                <div class="mapouter">
-                                                    <div class="gmap_canvas"><iframe width="1080" height="801" id="gmap_canvas"
-                                                            src="https://maps.google.com/maps?q=iasi&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no"
-                                                            marginheight="0" marginwidth="0"></iframe><a href="https://www.embedgooglemap.net/en/">maps.google.com
-                                                            maps</a></div>
-                                                    <style>
-                                                        .mapouter {
-                                                            position: relative;
-                                                            text-align: right;
-                                                            height: 801px;
-                                                            width: 1080px;
-                                                        }
-                                                
-                                                        .gmap_canvas {
-                                                            overflow: hidden;
-                                                            background: none !important;
-                                                            height: 801px;
-                                                            width: 1080px;
-                                                        }
-                                                    </style>
-                                                </div>
-                                            </div>
+                                        <div class="map-location " id="tab-holder-map">
+                                            <div class="gmap_canvas" id="gmap-id" style="width: 100%; height: 80vh;"></div>
 
-                                            <div class="location-results-element">
-                                                <button class="btn--close">
+                                            <div class="location-results-element" id="location-holder">
+                                                <button class="btn--close" id="close-location">
                                                     <span class="text">
                                                         <span class="icon svgicon">
                                                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -367,11 +353,7 @@
                                                 </button>
 
                                                 <div class="location-results-element-inner">
-                                                    <div class="results-element">
-                                                        <div class="search-by-keyword">
-                                                            <input type="text" name="" value="" placeholder="Search by Keyword" class="input-search">
-                                                            <button type="submit"><span class="icon icomoon icon-search2"></span></button>
-                                                        </div>
+                                                    <div class="results-element">                                                        
 
                                                         <div class="results-element-inner">
                                                             <div class="result-element">
@@ -394,53 +376,41 @@
                                                                     <li><a href="#"><span class="icon icomoon icon-location"></span></a></li>
                                                                 </ul>
                                                             </div>
-                                                            
-                                                            <div class="result-element">
-                                                                <h4 class="title">MARCH 3rd, 200</h4>
-                                                                <div class="generic-text inverted-color">
-                                                                    <ul>
-                                                                        <li><span class="icon icomoon icon-home"></span><b>Location:</b> Kabul, Afghanistan</li>
-                                                                        <li><span class="icon icomoon icon-user-check"></span><b>Group:</b> <span class="yellow">IS-KP</span></li>
-                                                                        <li><span class="icon icomoon icon-knife"></span><b>Group:</b> IS-KP</li>
-                                                                        <li><span class="icon icomoon icon-user-minus"></span><b>Fatalities:</b> 27</li>
-                                                                    </ul>
-                                                            
-                                                                    <p>2020 Kabul shooting: Gunmen attacked a ceremony commemorating the Hazara leader Abdul Ali Mazari in Kabul.
-                                                                        The ceremony
-                                                                        was attended by several high-profile politicia.</p>
-                                                                </div>
-                                                            
-                                                                <ul class="links">
-                                                                    <li><a href="#"><span class="icon icomoon icon-plus3"></span></a></li>
-                                                                    <li><a href="#"><span class="icon icomoon icon-location"></span></a></li>
-                                                                </ul>
-                                                            </div>
-
-                                                            <div class="result-element">
-                                                                <h4 class="title">MARCH 3rd, 200</h4>
-                                                                <div class="generic-text inverted-color">
-                                                                    <ul>
-                                                                        <li><span class="icon icomoon icon-home"></span><b>Location:</b> Kabul, Afghanistan</li>
-                                                                        <li><span class="icon icomoon icon-user-check"></span><b>Group:</b> <span class="yellow">IS-KP</span></li>
-                                                                        <li><span class="icon icomoon icon-knife"></span><b>Group:</b> IS-KP</li>
-                                                                        <li><span class="icon icomoon icon-user-minus"></span><b>Fatalities:</b> 27</li>
-                                                                    </ul>
-                                                            
-                                                                    <p>2020 Kabul shooting: Gunmen attacked a ceremony commemorating the Hazara leader Abdul Ali Mazari in Kabul.
-                                                                        The ceremony
-                                                                        was attended by several high-profile politicia.</p>
-                                                                </div>
-                                                            
-                                                                <ul class="links">
-                                                                    <li><a href="#"><span class="icon icomoon icon-plus3"></span></a></li>
-                                                                    <li><a href="#"><span class="icon icomoon icon-location"></span></a></li>
-                                                                </ul>
-                                                            </div>
+                                                                                                                        
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
+										<div class="graphs active" id="tab-holder-graphs">
+											<div class="row">
+												<div class="col-6">
+													<div class="graph-item">	
+														<canvas id="graph_region"></canvas>
+													</div>
+												</div>
+												<div class="col-6">
+													<div class="graph-item">	
+														<canvas id="graph_incidents"></canvas>
+													</div>
+												</div>
+												<div class="col-6">
+													<div class="graph-item">	
+														<canvas id="graph_attacks"></canvas>
+													</div>
+												</div>
+
+												<div class="col-6">
+													<div class="graph-item">	
+														<canvas id="graph_targets"></canvas>
+													</div>
+												</div>
+
+											</div>
+										</div>
+
+
 
                                         <div class="export-statistics">
                                             <a href="#"><span class="icon icomoon icon-printer2"></span> Export Statistics</a>

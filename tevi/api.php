@@ -32,6 +32,25 @@ class Api extends Model{
 			case "filters":
 				return $this->getFiltersJSON();
 			break;
+
+			case "search":
+				return $this->getSearchJSON($_POST);
+			break;
+
+			case "event":
+				return $this->getEventJSON($_POST["event"]);
+			break;
+
+			case "test":
+				return $this->getSearchJSON([
+//				"attack_type" => "Abortion Related",
+//				"weapon_type" => "11",
+//				"country" => "21",
+//				"period" => "6",
+//				"region" => "8",			
+			]);
+			break;
+
 		}
 
 		return $this->json([
@@ -163,6 +182,14 @@ class Api extends Model{
 			"6"	=> "Last 6 months",
 			"12"	=> "Last year",
 			"24"	=> "Last 2 years",
+			"36"	=> "Last 3 years",
+			"48"	=> "Last 4 years",
+			"60"	=> "Last 5 years",
+			"72"	=> "Last 6 years",
+			"84"	=> "Last 7 years",
+			"96"	=> "Last 8 years",
+			"108"	=> "Last 9 years",
+			"120"	=> "Last 10 years",
 		];
 
 		$response = [];
@@ -204,7 +231,268 @@ class Api extends Model{
 		]);
 
 	}
+
+	/**
+	* description
+	*
+	* @param
+	*
+	* @return
+	*
+	* @access
+	*/
+	function getSearchJSON($query) {
+		
+		
+		//build the query
+		//$query = $_POST;
+
+		$sql = "SELECT * FROM attacks ";
+		$cond = [];
+		$params = [];
+
+		if (isset($query["country"]) && $query["country"]) {
+			$cond[] = " country = ? ";
+			$params[] = [
+				"type" => "d",
+				"data" => $query["country"]
+			];
+		}
+
+		if (isset($query["region"]) && $query["region"]) {
+			$cond[] = " region = ? ";
+			$params[] = [
+				"type" => "d",
+				"data" => $query["region"]
+			];
+		}
+
+		if (isset($query["weapon_type"]) && $query["weapon_type"]) {
+			$cond[] = " weapon_type = ? ";
+
+			$params[] = [
+				"type" => "d",
+				"data" => $query["weapon_type"]
+			];
+		}
+
+		if (isset($query["period"]) && $query["period"]) {
+			$cond[] = " `date` >= ? ";
+
+			$params[] = [
+				"type" => "d",
+				"data" => time() - $query["period"] * 31 * 24 * 3600
+			];
+		} else {
+			$cond[] = " `date` >= ? ";
+
+			$params[] = [
+				"type" => "d",
+				"data" => time() - 20 * 356 * 24 * 3600
+			];
+		}
+
+
+		if (isset($query["attack_type"]) && $query["attack_type"]) {
+			$cond[] = " attack_type = ? ";
+
+			$params[] = [
+				"type" => "s",
+				"data" => $query["attack_type"]
+			];
+		}
+
+//		debug($params,1);
 	
+		$results = $this->db->QFetchRowArray(
+			"SELECT * from attacks "	. (count($cond ) ? " WHERE" . implode(" AND" , $cond ) : "") . " ",
+			$params
+		);
+
+		$events = null;
+
+		if (is_array($results)) {
+			foreach ($results as $key => $val) {
+				$events[] = [
+					"event_id"	=> $val["event_id"],
+					"lat"		=> $val["lat"],
+					"long"		=> $val["long"],
+				];
+			}
+			
+		}
+		
+
+		return $this->Json([
+			"status"	=> "success",
+			//"results"	=> $events,
+			"graphs"	=> $this->getGraphs($results)
+		]);
+
+
+	}
+
+	/**
+	* description
+	*
+	* @param
+	*
+	* @return
+	*
+	* @access
+	*/
+	function getEventJSON($event) {
+		$data = $this->db->QFetchArray(
+			"SELECT * FROM attacks WHERE event_id = ?",
+			[
+				["type"	=> "d",	"data" => $event]
+			]
+		);
+
+		if (is_array($data)) {
+			return $this->json([
+				"status"	=> "success",
+				"event"		=> $data
+			]);
+		} else {
+			return $this->json([
+				"status"	=> "error",
+			]);
+		}
+		
+	}
+
 	
+	/**
+	* description
+	*
+	* @param
+	*
+	* @return
+	*
+	* @access
+	*/
+	function getGraphs(&$results) {
+
+		return [
+			"graph_1"	=> $this->getGraph1($results),
+			"graph_2"	=> $this->getGraph2($results),
+//			"graph_3"	=> $this->getGraph3($results)
+		];
+	}
+	
+
+	/**
+	* description
+	*
+	* @param
+	*
+	* @return
+	*
+	* @access
+	*/
+	function getGraph1(&$results) {
+
+		$data = [
+		];
+
+		foreach ($results as $key => $val) {
+			if (!isset($data[$val['attack_type_text']])) {
+				$data[$val['attack_type_text']] = [
+					"success" => 0,
+					"suicide" => 0,
+					"nkill" => 0,
+				];
+			}
+
+			$data[$val['attack_type_text']]["success"] += $val["success"];
+			$data[$val['attack_type_text']]["suicide"] += $val["suicide"];
+			$data[$val['attack_type_text']]["nkill"] += $val["nkill"];
+			
+		}
+
+		$datasets = [];
+		$labels = ['Success' , 'Suicide' , 'Kills'];
+
+		foreach ($data as $key => $val) {
+
+			$datasets[] = [
+				"fill"	=>  true , 
+				"label"	=>  $key , 
+				"data"	=> array_values($val),
+				"backgroundColor"	=> $this->rand_color()
+			];
+
+			//$labels[] = $key;
+		}
+
+		return [
+			"datasets"	=> $datasets,
+			"labels"	=> $labels
+		];
+	}
+
+
+
+	/**
+	* description
+	*
+	* @param
+	*
+	* @return
+	*
+	* @access
+	*/
+	function getGraph2(&$results) {
+
+		$data = [
+			'Success' => [],
+			'Suicide' => [],
+			'Kills' => [],
+		];
+
+		$labels = [];
+
+		foreach ($results as $key => $val) {
+			$year = strftime("%Y" , $val["date"]);
+			if (!isset($data['Success'][$year])) {
+				$data['Success'][$year] = 0;
+				$data['Suicide'][$year] = 0;
+				$data['Kills'][$year] = 0;
+			}
+
+			$data['Success'][$year] += $val["success"];
+			$data['Suicide'][$year] += $val["suicide"];
+			$data['Kills'][$year] += $val["nkill"];
+
+			$labels[$year] = $year;
+			
+		}
+
+		$datasets = [];
+
+		foreach ($data as $key => $val) {
+			//$labels[] = $key;
+
+			$datasets[] = [
+				"fill"	=>  true , 
+				"label"	=>  $key , 
+				"data"	=> array_values($val),
+				"backgroundColor"	=> $this->rand_color()
+			];
+
+			//$labels[] = $key;
+		}
+
+		return [
+			"datasets"	=> $datasets,
+			"labels"	=> array_values($labels)
+		];
+	}
+	
+
+	private function rand_color() {
+		return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+	}
 	
 }

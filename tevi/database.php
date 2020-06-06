@@ -45,6 +45,17 @@ class Database{
 		}
 	}
 
+	//https://stackoverflow.com/questions/3681262/php5-3-mysqli-stmtbind-params-with-call-user-func-array-warnings
+	function refValues($arr) { 
+		$refs = array();
+
+		foreach ($arr as $key => $value) {
+			$refs[$key] = &$arr[$key]; 
+		}
+
+		return $refs; 
+	}
+
 	/**
 	* description
 	*
@@ -60,9 +71,19 @@ class Database{
 		$query->prepare($sql);
 
 		if (is_array($params) && count($params)) {
+			$types = "";
+			$data = [];
 			foreach ($params as $key => $val) {
-				$query->bindParam($key , $val);
-			}			
+				$types .= $val["type"];
+				$data[] = $val["data"];
+			}
+
+			$finalParams = [$types];
+			foreach ($data as $key => $val) {
+				$finalParams[] = $val;
+			}
+			
+			call_user_func_array(array($query, "bind_param"), $this->refValues($finalParams)); 
 		}
 
 		$query->execute();
