@@ -7,3 +7,8 @@ Number.prototype.numberFormat = function(decimals, dec_point, thousands_sep) {
 
     return parts.join(dec_point);
 }
+
+
+function gID(id) {
+	return document.getElementById(id);
+}

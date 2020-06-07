@@ -13,11 +13,16 @@ moduleFilter.config = {
 	
 	filters : {
 		url : {
+			api		: "api.php",
 			options : "api.php?action=filters",
 			results : "api.php?action=search",
 			event	: "api.php?action=event",
 		},
 		fields :  [
+			{ 
+				id  : "victims",
+				node : "victims"
+			},
 
 			{ 
 				id  : "attack_type",
@@ -132,7 +137,7 @@ moduleFilter.config = {
 				responsive: true,
 				hoverMode: 'index',
 
-                /*scales: {
+                scales: {
 					xAxes: [{
 						stacked: true,
 					}],
@@ -143,12 +148,12 @@ moduleFilter.config = {
 								return value.numberFormat();
 							}
 						},
-					}],
+					}]
 				},
 
 				tooltips: {
 					mode: 'index',
-				}*/	
+				}
 			},
 			chart	 : null
 		}
@@ -158,33 +163,55 @@ moduleFilter.config = {
 
 }
 
-moduleFilter.addListener = function(id) {
-	
-	document.getElementById(id).addEventListener('change', function() {
-		moduleFilter.refreshResults();
-	});
+moduleFilter.addListenerIfExists = function(id , event , callback )  {
+	var element = document.getElementById(id);
+
+	if (element) {
+		element.addEventListener(
+			event,
+			callback
+		);
+	}
 }
 
 moduleFilter.addDefaultListeners = function() {
-	document.getElementById("read-current-location").addEventListener(
+	var _this = moduleFilter;
+
+	_this.addListenerIfExists(
+		"read-current-location",
 		'click', 
-		moduleFilter.readBrowserLocation
+		_this.readBrowserLocation
 	);
 
-	document.getElementById("close-location").addEventListener(
+	_this.addListenerIfExists(
+		"close-location",
 		'click', 
-		moduleFilter.hideEventOnMap
+		_this.hideEventOnMap
 	);
 
-	document.getElementById("tab-show-map").addEventListener(
+	_this.addListenerIfExists(
+		"tab-show-map",
 		'click', 
-		moduleFilter.showMapTab
+		_this.showMapTab
 	);
 
-	document.getElementById("tab-show-graphs").addEventListener(
+	_this.addListenerIfExists(
+		"tab-show-graphs",
 		'click', 
-		moduleFilter.showGraphsTab
+		_this.showGraphsTab
 	);
+
+
+	var buttons = document.getElementsByClassName("download-button");
+
+	if (buttons.length) {
+		for (var buttonIndex = 0; buttonIndex < buttons.length ; buttonIndex++){
+			buttons[buttonIndex].addEventListener(
+				'click', 
+				_this.downloadChart
+			);
+		}
+	}
 
 }
 
@@ -194,6 +221,11 @@ moduleFilter.readBrowserLocation = function(event) {
 
 	if (moduleFilter.map === null){
 		alert("Map not initialized");
+		return false;
+	}
+
+	if (document.location.protocol != 'https:') {
+		alert("You must load the site from https:// in order to use browser location");
 		return false;
 	}
 	
@@ -214,8 +246,9 @@ moduleFilter.readBrowserLocation = function(event) {
 }
 
 moduleFilter.initMap = function() {
+	var _this = moduleFilter;
 
-	if (moduleFilter.map !== null) {
+	if (_this.map !== null) {
 		return false;
 	}
 
@@ -234,8 +267,8 @@ moduleFilter.initMap = function() {
 		},
 	};
 
-	if (!moduleFilter.map) {
-		moduleFilter.map = new google.maps.Map(
+	if (!_this.map) {
+		_this.map = new google.maps.Map(
 			document.getElementById('gmap-id'), 
 			mapOptions
 		);
@@ -262,19 +295,35 @@ moduleFilter.initFields = function() {
 					data.options[_this.config.filters.fields[fieldIndex].node]
 				);
 
-				_this.addListener(_this.config.filters.fields[fieldIndex].id);
+				_this.addListenerIfExists(
+					_this.config.filters.fields[fieldIndex].id,
+					'change',
+					_this.refreshResults
+				);
 			}
+
+
+			_this.refreshResults();
 				
 		});
 
 }
 
-moduleFilter.showEventOnMap = function(id) {
+moduleFilter.showEventOnMap = function(info) {
 
 	var _this		= moduleFilter,
 		variables	= new FormData();
-		variables.append("event" , id);
 
+
+	variables.append("lat" , info.lat);
+	variables.append("long" , info.long);
+
+	for (var fieldIndex in _this.config.filters.fields){
+		variables.append(
+			_this.config.filters.fields[fieldIndex].id , 
+			document.getElementById(_this.config.filters.fields[fieldIndex].id).value
+		);
+	}
 
 	fetch(
 		_this.config.filters.url.event,
@@ -293,6 +342,8 @@ moduleFilter.showEventOnMap = function(id) {
 			if (!element.classList.contains("active")) {
 				element.classList.add("active");
 			}	
+
+			console.log(data);
 
 
 		})
@@ -315,24 +366,20 @@ moduleFilter.hideEventOnMap = function( event ) {
 
 moduleFilter.refreshResults = function() {
 	
-	var variables = new FormData(),
-		_this = moduleFilter;
+	var _this	= moduleFilter,
+		params	= "?action=search";
 
 			
 	for (var fieldIndex in _this.config.filters.fields){
-		variables.append(
-			_this.config.filters.fields[fieldIndex].id,
-			document.getElementById(_this.config.filters.fields[fieldIndex].id).value
-		);
+		params += "&" + _this.config.filters.fields[fieldIndex].id + "=" + encodeURI(document.getElementById(_this.config.filters.fields[fieldIndex].id).value);		
 	}
 
 	fetch(
-		_this.config.filters.url.results,
+		_this.config.filters.url.api + params,
 		{
-			method			: 'POST',
+			method			: 'GET',
 			cache			: 'no-cache',
-			credentials		: 'same-origin',
-			body			: variables
+			credentials		: 'same-origin'
 		})
 
 		.then(data =>data.json())
@@ -350,24 +397,32 @@ moduleFilter.refreshResults = function() {
 
 moduleFilter.updateMap = function () {
 
-	moduleFilter.initMap();
+	var
+		_this	= moduleFilter,
+		map		= document.getElementById("tab-holder-map");
+
+	//dont refresh map if not active
+	if (!map.classList.contains('active')){
+		return false;
+	}
+
+	_this.initMap();
 
 	//clear cluster if exists
-	if (moduleFilter.cluster !== null && moduleFilter.markers !== null) {
-	
-		moduleFilter.cluster.removeMarkers(moduleFilter.markers);
+	if (_this.cluster !== null && _this.markers !== null) {	
+		_this.cluster.removeMarkers(_this.markers);
 	}
 
 	//clear markers if exists
-	if (moduleFilter.markers !== null) {
-		for (var markerIndex in moduleFilter.markers) {
-			moduleFilter.markers[markerIndex].setMap(null);
+	if (_this.markers !== null) {
+		for (var markerIndex in _this.markers) {
+			_this.markers[markerIndex].setMap(null);
 		}
-		moduleFilter.markers = null;
+		_this.markers = null;
 	}
 
-	if (moduleFilter.results.results) {
-		moduleFilter.markers = moduleFilter.results.results.map(
+	if (_this.results.results) {
+		_this.markers = _this.results.results.map(
 			function(location, i) {					
 				var loc = {
 					position: { 
@@ -376,17 +431,20 @@ moduleFilter.updateMap = function () {
 					}
 				}
 
-			var marker = new google.maps.Marker(
-				loc
-			);
+				var marker = new google.maps.Marker(
+					loc
+				);
 
-			marker.dataId = location.event_id;
+				marker.info = {
+					'lat'  : location.lat,
+					'long' : location.long
+				};
 
 				marker.addListener(
 					'click', 
 					function( event) {
-						//moduleFilter.map.setCenter(marker.getPosition());
-						moduleFilter.showEventOnMap(marker.dataId);
+						_this.map.setCenter(marker.getPosition());
+						_this.showEventOnMap(marker.info);
 					}
 				);
 
@@ -394,9 +452,9 @@ moduleFilter.updateMap = function () {
 			}
 		);	
 
-		if (moduleFilter.cluster === null) {
-			moduleFilter.cluster = new MarkerClusterer(
-				moduleFilter.map,
+		if (_this.cluster === null) {
+			_this.cluster = new MarkerClusterer(
+				_this.map,
 				[],
 				{
 					maxZoom: 15,
@@ -406,7 +464,7 @@ moduleFilter.updateMap = function () {
 	
 		}
 
-		moduleFilter.cluster.addMarkers(moduleFilter.markers);
+		_this.cluster.addMarkers(_this.markers);
 
 	} 
 }
@@ -434,24 +492,38 @@ moduleFilter.updateFilterOptions = function(id , options) {
 
 moduleFilter.showMapTab = function(event) {
 	var
-		map = document.getElementById("tab-holder-map"),
-		charts = document.getElementById("tab-holder-graphs");
+		_this	= moduleFilter,
+		button  = document.getElementById("tab-show-map"),
+		map		= document.getElementById("tab-holder-map"),
+		charts	= document.getElementById("tab-holder-graphs"),
+		filter	= document.getElementById("filter-casualties");
 
 	event.preventDefault();
 
 	if (!map.classList.contains("active")) {
-		map.classList.add("active");
+		map.classList.add("active");				
 	}	
+
+	if (filter.classList.contains("disabled")) {
+		filter.classList.remove("disabled");
+	}	
+
 
 	if (charts.classList.contains("active")) {
 		charts.classList.remove("active");
 	}	
+
+	_this.updateMap();
+	_this.updateGraphs();
+
 }
 
 moduleFilter.showGraphsTab = function() {
 	var
-		map = document.getElementById("tab-holder-map"),
-		charts = document.getElementById("tab-holder-graphs");
+		_this	= moduleFilter,
+		map		= document.getElementById("tab-holder-map"),
+		charts	= document.getElementById("tab-holder-graphs"),
+		filter	= document.getElementById("filter-casualties");
 
 	event.preventDefault();
 
@@ -459,15 +531,30 @@ moduleFilter.showGraphsTab = function() {
 		charts.classList.add("active");
 	}	
 
+	if (!filter.classList.contains("disabled")) {
+		filter.classList.add("disabled");
+	}
+
 	if (map.classList.contains("active")) {
 		map.classList.remove("active");
 	}	
+
+	_this.updateMap();
+	_this.updateGraphs();
 
 }
 
 
 moduleFilter.updateGraphs = function() {
-	var _this = moduleFilter;
+	var
+		_this	= moduleFilter,
+		charts	= document.getElementById("tab-holder-graphs");
+
+	//dont refresh charts if not active
+	if (!charts.classList.contains('active')){
+		return false;
+	}
+
 
 	for (var graphIndex in _this.config.graphs) {
 
@@ -491,10 +578,111 @@ moduleFilter.updateGraphs = function() {
 	}
 }
 
+moduleFilter.downloadChart = function(event) {
+	var _this			= moduleFilter,
+		button			= event.target,
+		downloadType	= button.getAttribute('data-download'),
+		chartID			= button.getAttribute('data-target'),
+		filename		= button.getAttribute('data-filename'),
+		chartElement	= document.getElementById(chartID),
+		chart			= null;
+
+
+	switch (downloadType) {
+		case 'png':
+
+			var dataURL = chartElement.toDataURL('image/png'),
+				tempLink = document.createElement('a');
+
+				tempLink.href = dataURL;
+				tempLink.download = filename + '.png';
+				
+				document.body.appendChild(tempLink);
+				tempLink.click();
+
+				tempLink.remove();				
+		break;	
+
+		case 'svg':
+
+			for (var chartIndex in _this.config.graphs) {
+				if (_this.config.graphs[chartIndex].id == chartID) {
+					chart = _this.config.graphs[chartIndex];
+				}
+			}
+
+			let tmpChart = chart.options;
+
+			tmpChart.animation = false;
+			tmpChart.responsive = false;
+
+			var svgContext = C2S(800,500);
+			mySvg = new Chart(
+				svgContext, 
+				{
+					type	: chart.type,
+					data	: _this.results.graphs[chart.node],
+					options	: tmpChart					
+				}
+			);
+
+			var dataURL = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgContext.getSerializedSvg(true)),
+				tempLink = document.createElement('a');
+
+				tempLink.href = dataURL;
+				tempLink.download = filename + '.svg';
+				
+				document.body.appendChild(tempLink);
+				tempLink.click();
+
+				tempLink.remove();				
+		break;
+
+		case 'csv':
+
+			for (var chartIndex in _this.config.graphs) {
+				if (_this.config.graphs[chartIndex].id == chartID) {
+					chart = _this.config.graphs[chartIndex].chart;
+				}
+			}
+
+			if (chart !== null) {
+				//https://jsfiddle.net/canvasjs/pcsgz06b/;
+				var tempLink	= document.createElement('a'),
+					content		= _this.chart2CSV(chart);
+
+				if (!content.match(/^data:text\/csv/i)) {
+					content = 'data:text/csv;charset=utf-8,' + content;
+				}
+
+				tempLink.href = encodeURI(content);
+				tempLink.download = 'chart.csv';
+					
+				document.body.appendChild(tempLink);
+				tempLink.click();
+
+				tempLink.remove();				
+			}
+
+
+		break;
+	}
+}
+
+moduleFilter.chart2CSV = function(chart) {
+	
+	var
+		 columnDelimiter = ',',
+		lineDelimiter = '\n';	
+}
+
 moduleFilter.runOnLoad = function() {	
-	this.addDefaultListeners();
-	this.initMap();
-	this.initFields();	
+	//initialize only if i have the map on the page
+	if (document.getElementById('gmap-id')) {
+		this.addDefaultListeners();
+		this.initMap();
+		this.initFields();	
+	}
 }
 
 moduleFilter.runOnResize = function() {		

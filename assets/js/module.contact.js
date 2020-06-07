@@ -98,7 +98,6 @@ moduleContact.initListeners = function() {
 		);
 
 		for (i = 0 ; i < fields.length ; i++){
-			console.log(fields[i]);
 
 			fields[i].addEventListener(
 				"click",

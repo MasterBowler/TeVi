@@ -9232,6 +9232,10 @@ section.no-margin-bottom .widget {
   color: #f1b500;
 }
 
+.disabled {
+  opacity: 0.2;
+}
+
 .map-filter {
   padding: 1.3rem 3rem 3px;
   background-color: #fff;

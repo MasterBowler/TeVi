@@ -30,13 +30,12 @@ function PrintR($array , $die = false) {
 * @access
 */
 function Debug($array , $die = false , $ip = "" , $level = 1) {
-	global $debug_id;
 
 	if ($ip && $ip != $_SERVER["REMOTE_ADDR"]) {
 		return "";
 	}
 
-	if ($debug_ip && $debug_ip != $_SERVER["REMOTE_ADDR"]) {
+	if ($ip && $ip != $_SERVER["REMOTE_ADDR"]) {
 		return "";
 	}
 

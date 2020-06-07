@@ -106,17 +106,18 @@ class Import extends Model{
 							`weapon_subtype_text`,
 							`target_type_text`,
 							`attack_type_text`,
-							`nkill`
+							`nkill`,
+							`gname`
 						)
 
 						VALUES
-						( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?)
+						( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?)
 					");
 
 					$date = mktime(0,0,0,$row['iday'] , $row['imonth'] , $row['iyear']);
 
 					$query->bind_param(
-						"iisissddiiiiiiissssd",
+						"iisisssddiiiiiissssds",
 						$date,
 						$row['region'],
 						$row['region_txt'],
@@ -136,7 +137,8 @@ class Import extends Model{
 						$row['weapsubtype1_txt'],
 						$row['targtype1'],
 						$row['targtype1_txt'],
-						$row['nkill']
+						$row['nkill'],
+						$row['gname']
 					);				
 
 					$query->execute();
