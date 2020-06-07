@@ -322,7 +322,7 @@
                                             </div>
                                         </div>
                                 
-                                        <div class="map-location active" id="tab-holder-map">
+                                        <div class="map-location " id="tab-holder-map">
                                             <div class="gmap_canvas" id="gmap-id" style="width: 100%; height: 80vh;"></div>
 
                                             <div class="location-results-element" id="location-holder">
@@ -348,25 +348,8 @@
                                                 <div class="location-results-element-inner">
                                                     <div class="results-element">                                                        
 
-                                                        <div class="results-element-inner">
-                                                            <div class="result-element">
-                                                                <h4 class="title">MARCH 3rd, 2000</h4>
-                                                                <div class="generic-text inverted-color">
-                                                                    <ul>
-                                                                        <li><span class="icon icomoon icon-home"></span><b>Location:</b> Kabul, Afghanistan</li>
-                                                                        <li><span class="icon icomoon icon-user-check"></span><b>Group:</b> <span class="yellow">IS-KP</span></li>
-                                                                        <li><span class="icon icomoon icon-user-minus"></span><b>Fatalities:</b> 27</li>
-                                                                    </ul>
+                                                        <div class="results-element-inner" id="location-item-content">
                                                             
-                                                                    <p>2020 Kabul shooting: Gunmen attacked a ceremony commemorating the Hazara leader Abdul Ali Mazari in Kabul.
-                                                                        The ceremony
-                                                                        was attended by several high-profile politicia.</p>
-                                                                </div>
-                                                            
-                                                                <ul class="links">
-                                                                    <li><a href="#"><span class="icon icomoon icon-location"></span></a></li>
-                                                                </ul>
-                                                            </div>
                                                                                                                         
                                                         </div>
                                                     </div>
@@ -374,16 +357,16 @@
                                             </div>
                                         </div>
 
-										<div class="graphs" id="tab-holder-graphs">
+										<div class="graphs active" id="tab-holder-graphs">
 											<div class="row">
 
 												<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-6">
 													<div class="graph-item">	
 														<canvas id="graph_incidents"></canvas>
 
-														<button class="download-button" data-filename="chart-download" data-type="download" data-download="csv" data-target="graph_incidents">csv</button>
-														<button class="download-button" data-filename="chart-download" data-type="download" data-download="svg" data-target="graph_incidents">svg</button>
-														<button class="download-button" data-filename="chart-download" data-type="download" data-download="png" data-target="graph_incidents">png</button>
+														<button class="download-button" data-filename="chart-region" data-type="download" data-download="csv" data-target="graph_incidents">csv</button>
+														<button class="download-button" data-filename="chart-region" data-type="download" data-download="svg" data-target="graph_incidents">svg</button>
+														<button class="download-button" data-filename="chart-region" data-type="download" data-download="png" data-target="graph_incidents">png</button>
 
 													</div>
 												</div>
@@ -391,9 +374,9 @@
 													<div class="graph-item">	
 														<canvas id="graph_attacks"></canvas>
 
-														<button class="download-button" data-filename="chart-download" data-type="download" data-download="csv" data-target="graph_attacks">csv</button>
-														<button class="download-button" data-filename="chart-download" data-type="download" data-download="svg" data-target="graph_attacks">svg</button>
-														<button class="download-button" data-filename="chart-download" data-type="download" data-download="png" data-target="graph_attacks">png</button>
+														<button class="download-button" data-filename="chart-attacks" data-type="download" data-download="csv" data-target="graph_attacks">csv</button>
+														<button class="download-button" data-filename="chart-attacks" data-type="download" data-download="svg" data-target="graph_attacks">svg</button>
+														<button class="download-button" data-filename="chart-attacks" data-type="download" data-download="png" data-target="graph_attacks">png</button>
 
 													</div>
 												</div>
@@ -402,9 +385,9 @@
 													<div class="graph-item">	
 														<canvas id="graph_targets"></canvas>
 
-														<button class="download-button" data-filename="chart-download" data-type="download" data-download="csv" data-target="graph_targets">csv</button>
-														<button class="download-button" data-filename="chart-download" data-type="download" data-download="svg" data-target="graph_targets">svg</button>
-														<button class="download-button" data-filename="chart-download" data-type="download" data-download="png" data-target="graph_targets">png</button>
+														<button class="download-button" data-filename="chart-targets" data-type="download" data-download="csv" data-target="graph_targets">csv</button>
+														<button class="download-button" data-filename="chart-targets" data-type="download" data-download="svg" data-target="graph_targets">svg</button>
+														<button class="download-button" data-filename="chart-targets" data-type="download" data-download="png" data-target="graph_targets">png</button>
 
 													</div>
 												</div>
@@ -413,9 +396,9 @@
 													<div class="graph-item">	
 														<canvas id="graph_region"></canvas>
 
-														<button class="download-button" data-filename="chart-download" data-type="download" data-download="csv" data-target="graph_region">csv</button>
-														<button class="download-button" data-filename="chart-download" data-type="download" data-download="svg" data-target="graph_region">svg</button>
-														<button class="download-button" data-filename="chart-download" data-type="download" data-download="png" data-target="graph_region">png</button>
+														<button class="download-button" data-filename="chart-pie" data-type="download" data-download="csv" data-target="graph_region">csv</button>
+														<button class="download-button" data-filename="chart-pie" data-type="download" data-download="svg" data-target="graph_region">svg</button>
+														<button class="download-button" data-filename="chart-pie" data-type="download" data-download="png" data-target="graph_region">png</button>
 													</div>
 												</div>
 

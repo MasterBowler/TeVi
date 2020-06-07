@@ -41,6 +41,10 @@ class Api extends Model{
 				return $this->getEventJSON($_POST);
 			break;
 
+			case "countries":
+				return $this->getRegionCountriesJSON($_POST);
+			break;
+
 			case "test":
 				return $this->getSearchJSON([
 //				"attack_type" => "Abortion Related",
@@ -135,6 +139,41 @@ class Api extends Model{
 		}
 
 		return $response;
+		
+	}
+	/**
+	* description
+	*
+	* @param
+	*
+	* @return
+	*
+	* @access
+	*/
+	function getRegionCountriesJSON() {
+
+		$types = $this->db->QFetchRowArray(
+			"SELECT DISTINCT country , country_text FROM attacks WHERE region = ?  ORDER BY country_text ASC",
+			[
+				["type" => "i", "data" => $_GET["region"]]
+			]
+		);
+
+		$response = [];
+
+		if (is_array($types)) {
+			foreach ($types as $key => $val) {
+				$response[] = [
+					"value" => $val["country"],
+					"title" => $val["country_text"],
+				];
+			}			
+		}
+
+		return $this->json([
+			"status"	=> "success",
+			"countries"	=>  $response
+		]);
 		
 	}
 
@@ -276,23 +315,7 @@ class Api extends Model{
 	*/
 	function getSearchParams($query , &$cond , &$params) {
 		global $base , $_USER , $_SESS; 
-
-		if (isset($query["lat"]) && $query["lat"]) {
-			$cond[] = " lat = ? ";
-			$params[] = [
-				"type" => "d",
-				"data" => $query["lat"]
-			];
-		}
-
-		if (isset($query["long"]) && $query["long"]) {
-			$cond[] = " `long` = ? ";
-			$params[] = [
-				"type" => "d",
-				"data" => $query["long"]
-			];
-		}
-
+	
 		if (isset($query["country"]) && $query["country"]) {
 			$cond[] = " country = ? ";
 			$params[] = [
@@ -389,7 +412,7 @@ class Api extends Model{
 		}
 		
 		$results = $this->db->QFetchRowArray(
-			"SELECT lat,`long` from attacks "	. (count($cond2 ) ? " WHERE" . implode(" AND" , $cond2 ) : "") . " ",
+			"SELECT event_id , lat,`long` from attacks "	. (count($cond2 ) ? " WHERE" . implode(" AND" , $cond2 ) : "") . " ",
 			$params
 		);
 	
@@ -398,11 +421,15 @@ class Api extends Model{
 
 		if (is_array($results)) {
 			foreach ($results as $key => $val) {
-				$events[$val["lat"] . "-" . $val["long"]] = [
-//					"event_id"	=> "xx",
-					"lat"		=> $val["lat"],
-					"long"		=> $val["long"],
-				];
+				if (isset($events[$val["lat"] . "-" . $val["long"]])) {
+					$events[$val["lat"] . "-" . $val["long"]]["ids"] .= "," . $val["event_id"];
+				} else {				
+					$events[$val["lat"] . "-" . $val["long"]] = [
+						"ids"		=> $val["event_id"],
+						"lat"		=> $val["lat"],
+						"long"		=> $val["long"],
+					];
+				}
 			}
 			
 			$results = null;
@@ -415,7 +442,7 @@ class Api extends Model{
 
 		return $this->Json([
 			"status"	=> "success",
-			"results"	=> array_values($events),
+//			"results"	=> array_values($events),
 			"graphs"	=> $this->getGraphs($graphResults)
 		]);
 
@@ -433,29 +460,34 @@ class Api extends Model{
 	*/
 	function getEventJSON($query) {
 
-		debug($query);
-
-		if (!isset($query["lat"]) || !isset($query["long"])) {
+		if (!isset($query["ids"]) || !trim($query["ids"])) {
 			return $this->json([
 				"status"	=> "error",
 			]);
 		}
 		
 
-		$cond = [];
-		$params = [];
+		$ids = explode("," , $query["ids"]);
+	
+		//remove ids that are not numeric
+		foreach ($ids as $key => $val) {
+			if (!(int)$val) {
+				unset($ids[$key]);
+			}
+			
+		}
 
-		$this->getSearchParams($query , $cond , $params);
-
+		//debug("SELECT * from attacks  WHERE event_id in (" . implode("," , $ids) . ") ORDER BY date DESC");
+		
 		$events = $this->db->QFetchRowArray(
-			"SELECT * from attacks  WHERE" . implode(" AND" , $cond ) . " ORDER BY date DESC LIMIT 10 ",
-			$params
+			"SELECT * from attacks  WHERE event_id in (" . implode("," , $ids) . ") ORDER BY date DESC",
+			null
 		);		
 
 		if (is_array($events)) {
 			return $this->json([
 				"status"	=> "success",
-				"events"		=> $events
+				"events"	=> $events
 			]);
 		} else {
 			return $this->json([

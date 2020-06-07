@@ -43,6 +43,9 @@ class Database{
 		if ($this->conn->connect_errno) {
 			throw new Exception($this->conn->connect_error);
 		}
+
+		$this->conn->set_charset ( "utf8" );
+
 	}
 
 	//https://stackoverflow.com/questions/3681262/php5-3-mysqli-stmtbind-params-with-call-user-func-array-warnings
@@ -67,10 +70,10 @@ class Database{
 	*/
 	function query($sql, $params = null) {
 
-		$query = $this->conn->stmt_init();
-		$query->prepare($sql);
-
 		if (is_array($params) && count($params)) {
+			$query = $this->conn->stmt_init();
+			$query->prepare($sql);
+
 			$types = "";
 			$data = [];
 			foreach ($params as $key => $val) {
@@ -84,11 +87,12 @@ class Database{
 			}
 			
 			call_user_func_array(array($query, "bind_param"), $this->refValues($finalParams)); 
+
+			$query->execute();
+			$result = $query->get_result();
+		} else {
+			$result = $this->conn->query($sql);
 		}
-
-		$query->execute();
-
-		$result = $query->get_result();
 
 		return $result;
 	}
@@ -125,13 +129,14 @@ class Database{
 
 		$result = $this->Query($sql , $params);
 
-		$results = null;
+		$results = [];
 		
 		while ($data = $result->fetch_array(MYSQLI_ASSOC)) {
+			
 			$results[] = $data;
 		}
 
-		return $results;
+		return count($results) ? $results : null;
 
 	}
 	

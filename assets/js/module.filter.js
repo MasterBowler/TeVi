@@ -13,10 +13,11 @@ moduleFilter.config = {
 	
 	filters : {
 		url : {
-			api		: "api.php",
-			options : "api.php?action=filters",
-			results : "api.php?action=search",
-			event	: "api.php?action=event",
+			api			: "api.php",
+			options		: "api.php?action=filters",
+			results		: "api.php?action=search",
+			event		: "api.php?action=event",
+			countries	: "api.php?action=countries",
 		},
 		fields :  [
 			{ 
@@ -174,6 +175,28 @@ moduleFilter.addListenerIfExists = function(id , event , callback )  {
 	}
 }
 
+moduleFilter.updateCountriesList = function() {
+	
+	var _this = moduleFilter;
+
+	//change the index of countries before doing the request
+	document.getElementById("country").selectedIndex  = 0;
+
+	fetch(_this.config.filters.url.countries + "&region=" + document.getElementById("region").value)
+		.then(data => data.json())
+		.then(function(data) {
+			if (!data.status || data.status != 'success'){
+				return null;
+			}
+			
+			_this.updateFilterOptions(
+				"country",
+				data.countries
+			);
+				
+		});
+}
+
 moduleFilter.addDefaultListeners = function() {
 	var _this = moduleFilter;
 
@@ -199,6 +222,12 @@ moduleFilter.addDefaultListeners = function() {
 		"tab-show-graphs",
 		'click', 
 		_this.showGraphsTab
+	);
+
+	_this.addListenerIfExists(
+		"region",
+		'change', 
+		_this.updateCountriesList
 	);
 
 
@@ -298,7 +327,10 @@ moduleFilter.initFields = function() {
 				_this.addListenerIfExists(
 					_this.config.filters.fields[fieldIndex].id,
 					'change',
-					_this.refreshResults
+					function() {
+						setTimeout(_this.refreshResults , 50);
+						
+					}
 				);
 			}
 
@@ -309,13 +341,69 @@ moduleFilter.initFields = function() {
 
 }
 
+moduleFilter.getValue = function(value , def ) {
+	def = def || "-";
+
+	if (value) {
+
+		if (Array.isArray(value)){
+			var data = [];
+
+			for ( var valueIndex in value) {
+				if (value[valueIndex])  {
+					data.push(value[valueIndex]);
+				}
+			}
+
+			if (data.length) {
+				return data.join(", " );
+			} else {
+				return def;
+			}
+		}
+
+		return value;
+
+	} else {
+		return def;
+	}
+}
+
+moduleFilter.getEventHTML = function(event) {
+	var _this	= moduleFilter ,
+		date	= new Date(event.date * 1000),
+		html	= 	`<div class="result-element">
+		<h4 class="title">` + date.toDateString() + `</h4>
+		<div class="generic-text inverted-color">
+			<ul>
+				<li><span class="icon icomoon icon-home"></span><b>Location:</b> ` + _this.getValue([event.country_text , event.city]) +`</li>
+				<li><span class="icon icomoon icon-user-check"></span><b>Group:</b> <span class="yellow">` + _this.getValue(event.gname) + `</span></li>
+				<li><span class="icon icomoon icon-user-minus"></span><b>Fatalities:</b> ` + _this.getValue(event.nkill) + `</li>
+				<li><span class="icon icomoon icon-user-minus"></span><b>NonFatalities:</b> ` + _this.getValue(event.nwound) + `</li>
+				<li><span class="icon icomoon icon-user-minus"></span><b>Weapon:</b> ` + _this.getValue([event.weapon_type_text, event.weapon_subtype_text]) + `</li>
+			</ul>
+	
+			<p>` + _this.getValue(event.summary) + `</p>
+		</div>
+	
+		<ul class="links">` +
+			(event.weapon_type_text ? `<li><a target="_blank" href="https://en.wikipedia.org/w/index.php?search=` + encodeURIComponent(event.weapon_type_text) + `"><span class="icon icomoon icon-wikipedia"></span></a></li>` : '')+
+			(event.weapon_type_text ? `<li><a target="_blank" href="https://google.com/search?q=` + encodeURIComponent(event.weapon_type_text) + `"><span class="icon icomoon icon-google"></span></a></li>` : '') +
+		`</ul>
+	</div>`;
+	
+	return html;
+}
+
 moduleFilter.showEventOnMap = function(info) {
 
 	var _this		= moduleFilter,
-		variables	= new FormData();
+		variables	= new FormData(),
+		holder		= document.getElementById("location-item-content");
 
 
 	variables.append("lat" , info.lat);
+	variables.append("ids" , info.ids);
 	variables.append("long" , info.long);
 
 	for (var fieldIndex in _this.config.filters.fields){
@@ -337,13 +425,20 @@ moduleFilter.showEventOnMap = function(info) {
 		.then(data =>data.json())
 		.then(function(data) {		
 
-			var element = document.getElementById("location-holder");
+			var element = document.getElementById("location-holder"),
+				content = "";
 
 			if (!element.classList.contains("active")) {
 				element.classList.add("active");
 			}	
 
-			console.log(data);
+			for (var eventIndex in data.events) {
+				content += _this.getEventHTML(data.events[eventIndex]);
+			}
+
+			holder.innerHTML = content;
+
+			//console.log(data);
 
 
 		})
@@ -437,7 +532,8 @@ moduleFilter.updateMap = function () {
 
 				marker.info = {
 					'lat'  : location.lat,
-					'long' : location.long
+					'long' : location.long,
+					'ids' : location.ids
 				};
 
 				marker.addListener(
@@ -674,6 +770,8 @@ moduleFilter.chart2CSV = function(chart) {
 	var
 		 columnDelimiter = ',',
 		lineDelimiter = '\n';	
+
+	console.log(chart.data);
 }
 
 moduleFilter.runOnLoad = function() {	

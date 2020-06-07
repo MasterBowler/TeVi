@@ -44,26 +44,6 @@ class Import extends Model{
 	*
 	* @access
 	*/
-	function processRecord($header , $data) {		
-
-		$row = [];
-
-		foreach ($header as $key => $val) {
-			$row[$val] = $data[$key];
-		}
-		
-		return $row;
-	}
-
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function processCSV() {
 
 		//open the csv for reading
@@ -74,13 +54,13 @@ class Import extends Model{
 			//set buffer to 10000, maximum number of line chars
 			$query = $this->db->conn->stmt_init();
 
-			while (($data = fgetcsv($handle, 10000, ",")) !== FALSE) {
+			while (($data = fgetcsv($handle, 100000, ",")) !== FALSE) {
 
 				if ($header === null) {
 					$header = $data;
 				} else {
 
-					$row = $this->processRecord($header , $data);
+					$row = @array_combine($header , $data);
 
 					//$query->reset();
 					$query = $this->db->conn->stmt_init();
@@ -107,17 +87,20 @@ class Import extends Model{
 							`target_type_text`,
 							`attack_type_text`,
 							`nkill`,
-							`gname`
+							`gname`,
+							`nwound`,
+							`summary`
+
 						)
 
 						VALUES
-						( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?)
+						( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?)
 					");
 
-					$date = mktime(0,0,0,$row['iday'] , $row['imonth'] , $row['iyear']);
+					$date = mktime(1,0,0,$row['imonth'] , $row['iday'] , $row['iyear']);
 
 					$query->bind_param(
-						"iisisssddiiiiiissssds",
+						"iisisssddiiiiiissssdsds",
 						$date,
 						$row['region'],
 						$row['region_txt'],
@@ -138,7 +121,9 @@ class Import extends Model{
 						$row['targtype1'],
 						$row['targtype1_txt'],
 						$row['nkill'],
-						$row['gname']
+						$row['gname'],
+						$row['nwound'],
+						$row['summary'],
 					);				
 
 					$query->execute();
