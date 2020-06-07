@@ -372,15 +372,15 @@ moduleFilter.getValue = function(value , def ) {
 moduleFilter.getEventHTML = function(event) {
 	var _this	= moduleFilter ,
 		date	= new Date(event.date * 1000),
-		html	= 	`<div class="result-element">
+		html	= `<div class="result-element">
 		<h4 class="title">` + date.toDateString() + `</h4>
 		<div class="generic-text inverted-color">
 			<ul>
-				<li><span class="icon icomoon icon-home"></span><b>Location:</b> ` + _this.getValue([event.country_text , event.city]) +`</li>
-				<li><span class="icon icomoon icon-user-check"></span><b>Group:</b> <span class="yellow">` + _this.getValue(event.gname) + `</span></li>
-				<li><span class="icon icomoon icon-user-minus"></span><b>Fatalities:</b> ` + _this.getValue(event.nkill) + `</li>
-				<li><span class="icon icomoon icon-user-minus"></span><b>NonFatalities:</b> ` + _this.getValue(event.nwound) + `</li>
-				<li><span class="icon icomoon icon-user-minus"></span><b>Weapon:</b> ` + _this.getValue([event.weapon_type_text, event.weapon_subtype_text]) + `</li>
+				<li><span class="icon icomoon icomoon icon-earth"></span><b>Location:</b> ` + _this.getValue([event.country_text , event.city]) +`</li>
+				<li><span class="icon icomoon icomoon icon-users4"></span><b>Group:</b> <span class="yellow">` + _this.getValue(event.gname) + `</span></li>
+				<li><span class="icon icomoon icomoon icon-user-cancel2"></span><b>Fatalities:</b> ` + _this.getValue(event.nkill) + `</li>
+				<li><span class="icon icomoon icomoon icon-user-check2"></span><b>NonFatalities:</b> ` + _this.getValue(event.nwound) + `</li>
+				<li><span class="icon icomoon icomoon icon-bomb"></span><b>Weapon:</b> ` + _this.getValue([event.weapon_type_text, event.weapon_subtype_text]) + `</li>
 			</ul>
 	
 			<p>` + _this.getValue(event.summary) + `</p>
@@ -494,10 +494,10 @@ moduleFilter.updateMap = function () {
 
 	var
 		_this	= moduleFilter,
-		map		= document.getElementById("tab-holder-map");
+		body	= document.getElementsByTagName("body")[0];
 
 	//dont refresh map if not active
-	if (!map.classList.contains('active')){
+	if (!body.classList.contains('with-map')){
 		return false;
 	}
 
@@ -589,25 +589,20 @@ moduleFilter.updateFilterOptions = function(id , options) {
 moduleFilter.showMapTab = function(event) {
 	var
 		_this	= moduleFilter,
-		button  = document.getElementById("tab-show-map"),
-		map		= document.getElementById("tab-holder-map"),
-		charts	= document.getElementById("tab-holder-graphs"),
-		filter	= document.getElementById("filter-casualties");
+		body	= document.getElementsByTagName("body")[0],
+		filter	= document.getElementById("victims");
 
 	event.preventDefault();
 
-	if (!map.classList.contains("active")) {
-		map.classList.add("active");				
+	if (!body.classList.contains("with-map")) {
+		body.classList.add("with-map");				
 	}	
 
-	if (filter.classList.contains("disabled")) {
-		filter.classList.remove("disabled");
+	if (body.classList.contains("with-graph")) {
+		body.classList.remove("with-graph");				
 	}	
 
-
-	if (charts.classList.contains("active")) {
-		charts.classList.remove("active");
-	}	
+	filter.disabled = false;
 
 	_this.updateMap();
 	_this.updateGraphs();
@@ -617,23 +612,20 @@ moduleFilter.showMapTab = function(event) {
 moduleFilter.showGraphsTab = function() {
 	var
 		_this	= moduleFilter,
-		map		= document.getElementById("tab-holder-map"),
-		charts	= document.getElementById("tab-holder-graphs"),
-		filter	= document.getElementById("filter-casualties");
+		body	= document.getElementsByTagName("body")[0],
+		filter	= document.getElementById("victims");
 
 	event.preventDefault();
 
-	if (!charts.classList.contains("active")) {
-		charts.classList.add("active");
+	if (!body.classList.contains("with-graph")) {
+		body.classList.add("with-graph");				
 	}	
 
-	if (!filter.classList.contains("disabled")) {
-		filter.classList.add("disabled");
-	}
-
-	if (map.classList.contains("active")) {
-		map.classList.remove("active");
+	if (body.classList.contains("with-map")) {
+		body.classList.remove("with-map");				
 	}	
+
+	filter.disabled = true;
 
 	_this.updateMap();
 	_this.updateGraphs();
@@ -644,10 +636,10 @@ moduleFilter.showGraphsTab = function() {
 moduleFilter.updateGraphs = function() {
 	var
 		_this	= moduleFilter,
-		charts	= document.getElementById("tab-holder-graphs");
+		body	= document.getElementsByTagName("body")[0];
 
 	//dont refresh charts if not active
-	if (!charts.classList.contains('active')){
+	if (!body.classList.contains('with-graph')){
 		return false;
 	}
 
