@@ -217,10 +217,6 @@ class Api extends Model{
 	function getPeriods() {
 
 		$periods = [
-			"1"	=> "Last month",
-			"6"	=> "Last 6 months",
-			"12"	=> "Last year",
-			"24"	=> "Last 2 years",
 			"36"	=> "Last 3 years",
 			"48"	=> "Last 4 years",
 			"60"	=> "Last 5 years",
@@ -359,7 +355,7 @@ class Api extends Model{
 
 
 		if (isset($query["attack_type"]) && $query["attack_type"]) {
-			$cond[] = " attack_type = ? ";
+			$cond[] = " attack_type_text LIKE ? ";
 
 			$params[] = [
 				"type" => "s",
@@ -442,7 +438,7 @@ class Api extends Model{
 
 		return $this->Json([
 			"status"	=> "success",
-//			"results"	=> array_values($events),
+			"results"	=> is_array($events) && count($events) ? array_values($events) : null,
 			"graphs"	=> $this->getGraphs($graphResults)
 		]);
 
@@ -508,6 +504,11 @@ class Api extends Model{
 	* @access
 	*/
 	function getGraphs(&$results) {
+
+		if (!(is_array($results) && count($results))) {
+			return null;
+		}
+		
 
 		return [
 			"graph_1"	=> $this->getGraph1($results),

@@ -2,7 +2,7 @@
 site = function() {
 }
 
-site.debug		= true;
+site.debug		= false;
 site.extensions = [];
 
 site.registerModule = function(obj, callback) {
@@ -90,7 +90,7 @@ site.runOnContentUpdate = function(ondone) {
 }
 
 
-site.debug = true;
+site.debug = false;
 
 window.addEventListener('resize', site.runOnResize);
 window.addEventListener('scroll', site.runOnScroll);
