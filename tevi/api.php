@@ -797,7 +797,13 @@ class Api extends Model{
 
 
 	private function rand_color() {
-		return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+		$hex = str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+
+		$r = hexdec(substr($hex,0,2));
+		$g = hexdec(substr($hex,2,2));
+		$b = hexdec(substr($hex,4,2));
+
+		return "rgba({$r},{$g},{$b},0.5)";
 	}
 	
 }

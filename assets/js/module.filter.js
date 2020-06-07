@@ -712,7 +712,7 @@ moduleFilter.downloadChart = function(event) {
 			tmpChart.animation = false;
 			tmpChart.responsive = false;
 
-			var svgContext = C2S(800,500);
+			var svgContext = C2S(1000,1000);
 			mySvg = new Chart(
 				svgContext, 
 				{
@@ -752,7 +752,7 @@ moduleFilter.downloadChart = function(event) {
 				}
 
 				tempLink.href = encodeURI(content);
-				tempLink.download = 'chart.csv';
+				tempLink.download = filename + '.csv';
 					
 				document.body.appendChild(tempLink);
 				tempLink.click();
@@ -768,16 +768,53 @@ moduleFilter.downloadChart = function(event) {
 moduleFilter.chart2CSV = function(chart) {
 	
 	var
-		 columnDelimiter = ',',
-		lineDelimiter = '\n';	
+		 columnDelimiter	= ',',
+		lineDelimiter		= '\n',
+		content				= "";
 
-	console.log(chart.data);
+	
+	//generate header
+	var line = ["Details"];
+
+	for (var dataSetIndex in chart.data.datasets) {
+		line.push(chart.data.datasets[dataSetIndex].label);
+	}
+	content += line.join(columnDelimiter) + lineDelimiter;
+
+	for (var labelIndex in chart.data.labels) {
+		var line	= [chart.data.labels[labelIndex]];
+
+		for (var dataSetIndex in chart.data.datasets) {
+
+			if (chart.data.datasets[dataSetIndex].data[labelIndex]){
+				line.push(chart.data.datasets[dataSetIndex].data[labelIndex]);
+			} else {
+				line.push("");
+			}			
+		}		
+
+		content += line.join(columnDelimiter) + lineDelimiter;
+	}
+		
+	return content;
+}
+
+moduleFilter.initChartPlugins = function() {
+	var backgroundColor = 'white';
+	Chart.plugins.register({
+		beforeDraw: function(c) {
+			var ctx = c.chart.ctx;
+			ctx.fillStyle = backgroundColor;
+			ctx.fillRect(0, 0, c.chart.width, c.chart.height);
+		}
+	});
 }
 
 moduleFilter.runOnLoad = function() {	
 	//initialize only if i have the map on the page
 	if (document.getElementById('gmap-id')) {
 		this.addDefaultListeners();
+		this.initChartPlugins();
 		this.initMap();
 		this.initFields();	
 	}
