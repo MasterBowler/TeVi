@@ -11,7 +11,7 @@ Georgiana Vasilica, A2 - Frontend and Backend Developer
 We focused on creating a highly user friendly and professional website which consists of 5 pages with practical information regarding terrorism.
 
 Global Statistics: 
-The page has a map view and an advanced search option for the attacks and 3 chart views made using ChartJs, as it was listed as accepted in the requirements list. The user can download the stats in the given formats.
+The page has a map view and an advanced search option for the attacks and 4 chart views made using ChartJs, as it was listed as accepted in the requirements list. The user can download the stats in the given formats.
 
 Evolution: 
 The page has some information regarding the evolution of terrorism in the last years. The source is listed and the button redirects to the article from which it was taken.
