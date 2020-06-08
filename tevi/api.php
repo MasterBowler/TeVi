@@ -408,7 +408,7 @@ class Api extends Model{
 		}
 		
 		$results = $this->db->QFetchRowArray(
-			"SELECT event_id , lat,`long` from attacks "	. (count($cond2 ) ? " WHERE" . implode(" AND" , $cond2 ) : "") . " ",
+			"SELECT event_id , lat,`long` from attacks WHERE `lat` != 0 and `long` != 0 "	. (count($cond2 ) ? " AND " . implode(" AND" , $cond2 ) : "") . " ",
 			$params
 		);
 	
