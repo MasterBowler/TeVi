@@ -15,8 +15,10 @@
     display: block;
     z-index: 101!important;
     width: 4.8rem;
-    height: 4.9rem;
+    height: 4.8rem;
+    border-radius: 50%;
     @extend %visible-element;
+    background-color: $skin_color;
 }
 
 %hamburger-lines-icon {
@@ -116,7 +118,7 @@
 
                 span {
                     @extend %hamburger-lines-span;
-                    background-color: $skin_color;
+                    background-color: $text_color;
 
                     @at-root .show-main-menu#{&} {
                         width: 0%;
@@ -193,7 +195,7 @@
             span {
                 position: absolute;
                 display: block;
-                background-color: $skin_color;
+                background-color: $text_color;
 
                 &:nth-child(1) {
                     @extend %cross-span-first;
@@ -223,7 +225,7 @@
     .collapsed & {
         @extend %menu-buttons;
         right: 0;
-        margin: 0.9rem 1.2rem 0 0;
+        margin: 0.8rem 1.5rem 0 0;
         -webkit-transition-property: right, visibility, opacity;
         -webkit-transition-duration: 400ms;
         -webkit-transition-timing-function: cubic-bezier(0.810, 0.085, 1.000, 0.000);
@@ -320,7 +322,7 @@
 
                 .icon {
                     @extend %hamburger-icon;
-                    color: $skin_color;
+                    color: $text_color;
                 }
             }
         }
@@ -335,7 +337,7 @@
             span {
                 position: absolute;
                 display: block;
-                background-color: $skin_color;
+                background-color: $text_color;
 
                 &:nth-child(1) {
                     @extend %cross-span-first;

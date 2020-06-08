@@ -85,6 +85,14 @@
 				@extend %font-widget-huge;
 			}
 
+			@at-root .widget-title-center.widget-title-center-responsive#{&} {
+				text-align: left;
+
+				@media (min-width: 1200px) {
+					text-align: center;
+				}
+			}
+
 			color: $skin_color;
 		}
 	}

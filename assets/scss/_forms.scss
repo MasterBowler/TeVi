@@ -1,6 +1,12 @@
 .form {
     form {
+        @extend %display-flex-column;
+        width: 100%;
+
         > .form-response {
+                -ms-flex-order: 3;
+                order: 3;
+
             > * {
                 @extend %family-primary;
                 font-size: 1.6rem;
@@ -20,6 +26,11 @@
                 }
             }
         }
+
+        > .row {
+            -ms-flex-order: 1;
+            order: 1;
+        }
     }
 
     .generic-text + & {
@@ -31,6 +42,9 @@
         position: relative;
 
         &.form-buttons {
+            -ms-flex-order: 3;
+            order: 3;
+
             padding-bottom: 0;
             padding-top: 0.5rem;
 
@@ -130,7 +144,7 @@
             font-size: 1rem;
             line-height: 1.1;
             font-weight: 400;
-            color: $skin_color;
+            color: #ff1744;
         }
     }
 }
