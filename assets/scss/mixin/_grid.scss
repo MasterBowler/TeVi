@@ -4,7 +4,7 @@
 
 	@each $revBreakpoint in $grid-breakpoints {
 		
-		$breakpointIndex : indexOfGrid($grid-breakpoints , $revBreakpoint);
+		$breakpointIndex : index($grid-breakpoints , $revBreakpoint);
 		$newIndex	 : $breakingpoints - $breakpointIndex + 1;
 		$breakpoint	 : nth($grid-breakpoints , $newIndex);
 

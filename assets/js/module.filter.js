@@ -60,9 +60,9 @@ moduleFilter.config = {
 				hoverMode: 'index',
 
 				tooltips: {
-//					mode: 'index',
+					mode: 'index',
 				},
-/*
+
                 scales: {
 					yAxes: [{
 						ticks: {
@@ -72,7 +72,7 @@ moduleFilter.config = {
 						},
 					}],
 				},
-*/
+
 			},
 			chart	 : null
 		},

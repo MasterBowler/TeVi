@@ -6,7 +6,7 @@
 
 @function gridGetNextBreakpoint($breakpoint) {
 
-	$index	: indexOfGrid($grid-breakpoints , $breakpoint);
+	$index	: index($grid-breakpoints , $breakpoint);
 
 	@if $index != null and $index < length($grid-breakpoints) {
 		@return nth($grid-breakpoints , $index + 1);
@@ -18,7 +18,7 @@
 
 @function gridGetPrevBreakpoint($breakpoint) {
 
-	$index	: indexOfGrid($grid-breakpoints , $breakpoint);
+	$index	: index($grid-breakpoints , $breakpoint);
 
 	@if $index > 1 {
 		@return nth($grid-breakpoints , $index - 1);
@@ -49,26 +49,4 @@
 
 @function gridGetMaxBreakpoint() {
 	@return map-get(nth($grid-breakpoints , length($grid-breakpoints)) , class);
-}
-
-@function indexOfGrid($breakpoints : $grid-breakpoints , $breakingpoint) {
-
-	$pos : null;
-
-	$class : map-get($breakingpoint , class);
-
-	@each $current in $breakpoints {
-
-		@if $pos == null {
-			$pos : 1;
-		} @else {
-			$pos : $pos + 1;
-		}
-
-		@if map-get($current , class) == $class {
-			@return $pos;
-		}
-	}
-
-	@return null;
 }
