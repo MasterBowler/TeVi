@@ -4,34 +4,10 @@ namespace App\Tevi;
 
 use \App\Tevi\Config;
 
-/**
-* description
-*
-* @library	
-* @author	
-* @since	
-*/
 class Model{
 
-	/**
-	* description
-	*
-	* @var type
-	*
-	* @access type
-	*/
 	var $db;
-	
-	
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
+
 	function __init() {
 
 
@@ -49,16 +25,6 @@ class Model{
 		return new static();
 	}
 
-	
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function JSON($data , $headers = true) {
 
 		if ($headers) {
