@@ -6,24 +6,9 @@ use \App\Tevi\Database;
 use \App\Tevi\Config;
 use \App\Tevi\Model;
 
-/**
-* description
-*
-* @library	
-* @author	
-* @since	
-*/
+
 class Api extends Model{
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function run() {		
 		$this->__init();
 
@@ -62,15 +47,7 @@ class Api extends Model{
 			"message"	=> "Unknown Request"
 		]);
 	}
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
+
 	function getAttackTypes() {
 
 		$types = $this->db->QFetchRowArray("SELECT DISTINCT attack_type_text FROM attacks order by attack_type_text ASC");
@@ -88,15 +65,6 @@ class Api extends Model{
 		return $response;
 	}
 	
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function getWeaponTypes() {
 
 		$types = $this->db->QFetchRowArray("SELECT DISTINCT weapon_type_text , weapon_type FROM attacks order by weapon_type_text ASC");
@@ -115,15 +83,6 @@ class Api extends Model{
 		
 	}
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function getCountries() {
 
 		$types = $this->db->QFetchRowArray("SELECT DISTINCT country , country_text FROM attacks order by country_text ASC");
@@ -141,15 +100,7 @@ class Api extends Model{
 		return $response;
 		
 	}
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
+
 	function getRegionCountriesJSON() {
 
 		$types = $this->db->QFetchRowArray(
@@ -178,15 +129,6 @@ class Api extends Model{
 	}
 
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function getRegions() {
 
 		$types = $this->db->QFetchRowArray("SELECT DISTINCT region , region_text FROM attacks order by region_text ASC");
@@ -205,15 +147,6 @@ class Api extends Model{
 		
 	}
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function getPeriods() {
 
 		$periods = [
@@ -241,15 +174,6 @@ class Api extends Model{
 		return $response;
 	}
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function getVictimsTypes() {
 
 		$periods = [
@@ -274,15 +198,6 @@ class Api extends Model{
 	
 
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function getFiltersJSON() {
 
 		return $this->Json([
@@ -300,15 +215,6 @@ class Api extends Model{
 	}
 
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function getSearchParams($query , &$cond , &$params) {
 		global $base , $_USER , $_SESS; 
 	
@@ -364,16 +270,6 @@ class Api extends Model{
 		}
 	}
 	
-
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function getSearchJSON($query) {
 		
 		
@@ -385,8 +281,6 @@ class Api extends Model{
 		$params = [];
 
 		$this->getSearchParams($query , $cond , $params);		
-
-//		debug($params,1);
 
 		$cond2 = $cond;
 		if (isset($query["victims"]) && $query["victims"]) {
@@ -445,15 +339,6 @@ class Api extends Model{
 
 	}
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function getEventJSON($query) {
 
 		if (!isset($query["ids"]) || !trim($query["ids"])) {
@@ -472,8 +357,6 @@ class Api extends Model{
 			}
 			
 		}
-
-		//debug("SELECT * from attacks  WHERE event_id in (" . implode("," , $ids) . ") ORDER BY date DESC");
 		
 		$events = $this->db->QFetchRowArray(
 			"SELECT * from attacks  WHERE event_id in (" . implode("," , $ids) . ") ORDER BY date DESC",
@@ -494,15 +377,6 @@ class Api extends Model{
 	}
 
 	
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function getGraphs(&$results) {
 
 		if (!(is_array($results) && count($results))) {
@@ -519,15 +393,6 @@ class Api extends Model{
 	}
 	
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function getGraph1(&$results) {
 
 		$data = [
@@ -570,17 +435,6 @@ class Api extends Model{
 		];
 	}
 
-
-
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function old_getGraph1(&$results) {
 
 		$data = [
@@ -622,16 +476,6 @@ class Api extends Model{
 		];
 	}
 
-
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function getGraph2(&$results) {
 
 		$data = [
@@ -680,15 +524,6 @@ class Api extends Model{
 	}
 
 	
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function getGraph3(&$results) {
 
 		$data = [
@@ -737,18 +572,6 @@ class Api extends Model{
 		];
 	}
 
-
-
-	
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function getGraph4(&$results) {
 
 		$data = [
