@@ -6,25 +6,8 @@ use \App\Tevi\Database;
 use \App\Tevi\Config;
 use \App\Tevi\Model;
 
-/**
-* description
-*
-* @library	
-* @author	
-* @since	
-*/
 class Import extends Model{
 
-
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function run() {		
 
 		$this->__init();
@@ -35,15 +18,6 @@ class Import extends Model{
 		return true;
 	}
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function processCSV() {
 
 		//open the csv for reading
@@ -144,15 +118,6 @@ class Import extends Model{
 		
 	}
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function prepareTable() {		
 
 		//drop existing records
@@ -222,16 +187,6 @@ class Import extends Model{
 	}
 	
 
-
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function __init() {		
 
 		//can take a lot of time to import the database;
