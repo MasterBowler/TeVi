@@ -598,16 +598,7 @@ class Api extends Model{
 
 			$_data[] = $val;
 			$_bg[] = $this->rand_color();
-
-/*
-			$datasets[] = [
-				"fill"	=>  true , 
-				"label"	=>  $key , 
-				"data"	=> [$val],//array_values($val),
-				"backgroundColor"	=> $this->rand_color()
-			];
-*/
-			//$labels[] = $key;
+			
 		}
 
 		return [
