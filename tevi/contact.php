@@ -6,22 +6,8 @@ use \App\Tevi\Database;
 use \App\Tevi\Config;
 use \App\Tevi\Model;
 
-/**
-* description
-*
-* @library	
-* @author	
-* @since	
-*/
 class Contact extends Model{
 
-	/**
-	* description
-	*
-	* @var type
-	*
-	* @access type
-	*/
 	var $fields = [
 		"email"	=> [
 			"type" => FILTER_VALIDATE_EMAIL,
@@ -56,30 +42,12 @@ class Contact extends Model{
 		]
 	];
 
-	/**
-	* description
-	*
-	* @var type
-	*
-	* @access type
-	*/
 	var $messages = [
 		"errors"	=> "Fix errors!",
 		"success"	=> "Message Sent!",
 		"system"	=> "Unknown error, try again later!"
 	];
 	
-
-
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function run() {		
 
 		$this->__init();
@@ -88,15 +56,6 @@ class Contact extends Model{
 		return true;
 	}
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function validate() {
 
 		$errors = null;
@@ -158,16 +117,6 @@ class Contact extends Model{
 		return 1;				
 	}
 	
-
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function headers() {
 
 		header('Content-Type: application/json; charset=utf-8');
