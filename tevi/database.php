@@ -1,37 +1,11 @@
 <?php
 
-
-/**
-* description
-*
-* @library	
-* @author	
-* @since	
-*/
-
 namespace App\Tevi;
 
 class Database{
 
-	/**
-	* description
-	*
-	* @var type
-	*
-	* @access type
-	*/
 	var $conn;
 
-
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function __construct($server , $user , $pass , $database) {
 		$this->conn = new \mysqli(
 			$server,
@@ -59,15 +33,6 @@ class Database{
 		return $refs; 
 	}
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function query($sql, $params = null) {
 
 		if (is_array($params) && count($params)) {
@@ -97,16 +62,6 @@ class Database{
 		return $result;
 	}
 
-
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function qFetchArray($sql ,$params = null) {
 
 		$result = $this->Query($sql , $params);
@@ -116,15 +71,6 @@ class Database{
 		
 	}
 
-	/**
-	* description
-	*
-	* @param
-	*
-	* @return
-	*
-	* @access
-	*/
 	function qFetchRowArray($sql , $params = null) {
 
 		$result = $this->Query($sql , $params);
