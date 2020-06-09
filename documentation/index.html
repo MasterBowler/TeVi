@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>TeVi - Interface and Functionality</title>
+    <link rel="stylesheet" href="css/scholarly.min.css">
+    <script src="js/scholarly.min.js"></script>
+  </head>
+  <body prefix="schema: http://schema.org">
+    <header>
+      <h1>TeVi<br/>Interface and Functionality</h1>
+    </header>
+
+    <div role="contentinfo">
+      <dl>
+        <dt>Project made by:</dt>
+        <dd>
+          Giurgea Elisa, <i>Class A2, Year 2</i><br/>
+          Manolache Mihai, <i>Class A2, Year 2</i> <br/>
+          Vasilica Georgiana, <i>Class E1, Year 2</i>
+        </dd>
+        <dt>License</dt>
+        <dd>
+          <a href="http://creativecommons.org/licenses/by/4.0/">CC-BY</a>
+        </dd>
+      </dl>
+    </div>
+    <section id="introduction" role="doc-introduction">
+      <!-- review? -->
+      <h2>Introduction</h2>
+      <p>
+        This report contains an elaborate description of the functionality offered by <a href="https://tevi.stempora.me/" target="_blank">TeVi</a>, a global terrorism visualiser
+        which focuses on showing reliable statistics and location services regarding the worldwide terrorism, both of them
+        having advanced filtering options. The site also contains some useful information about prevention measures and 
+        the worldwide evolution of terrorism and a contact form to facilitate communication.
+      </p>
+    </section>
+
+    <section id="motivation">
+      <!-- review? -->
+      <h2>Motivation</h2>
+      <p>
+        We chose this project because of its link with real life events and the probability for it to be useful:
+        Terrorism is a worldwide problem widely covered in the media and it is an interesting matter to see
+        where, when, how and why these attacks happened, as many people would like to see exactly the impact
+        it has.
+      </p>
+    </section>
+
+    <section id="Technologies used">
+      <h2>Used Technologies</h2>
+      <p>
+        The project was implemented using HTML for markup, SCSS to ease most of the frontend part of the implementation, CSS,
+        JavaScript ES5 and ES6 and ChartJS for the functionality and PHP 7.3 for the backend part. The database was accessed using 
+        MySQL queries.
+      </p>
+      <p>The Design was made in Photoshop CC2019 by Elisa Giurgea, who works as a designer for Stempora, as we deemed for a 
+        pixel perfect interface to be important in showcasing the content of the site nicely.
+      </p>
+    </section>
+
+    <section id="functionality">
+      <!-- review? -->
+      <h2>Functionality</h2>
+
+      <section id="Frontend">
+        <h3>Frontend</h3>
+        <p>For the frontend part we aspired to get a clean, fully responsive interface to provide the user with an experience
+          as close to flawless as possible.
+        </p>
+        <img src="img/home.png" style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-bottom: 20px;">
+        <img src="img/text page.png" style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-bottom: 20px;">
+        <img src="img/team.png" style="display: block; margin-left: auto; margin-right: auto; width: 50%; margin-bottom: 20px;">
+        <img src="img/contact.png" style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
+        <p>Based on the PSDs, we created an intuitive markup for each page:
+          <ul>
+            <li><a href="https://tevi.stempora.me/">Global Statistics</a></li>
+            <li><a href="https://tevi.stempora.me/evolution.html">Evolution</a></li>
+            <li><a href="https://tevi.stempora.me/prevention.html">Prevention Measures</a></li>
+            <li><a href="https://tevi.stempora.me/team.html">Who are we</a></li>
+            <li><a href="https://tevi.stempora.me/contact.html">Contact</a></li>
+          </ul>
+          which was later stylized using SCSS, which is a 
+          combination between JS and CSS which facilitates using variables, functions and mixins to ease and standardize the 
+          work behind.
+        </p>
+        <p>
+          The responsive part was inspired by the Bootstrap system of columns, but implemented by us in a simplified form.
+          We chose to go with this method to standardize the way the pages act on different resolutions easier.
+        </p>
+        <img src="img/responsive.png" style="width: 500px; display: block; margin-left: auto; margin-right: auto; width: 50%;">
+        <p>Apart from the columns system, we deemed fit to implement a collapsed menu on responsive as the classic top
+          navigation bar doesn't look mobile friendly and it is far easier to navigate the site on your phone when you 
+          have this type of menu.
+        </p>
+        <p>In addition, we treated several breaking points to make the content look optimal for the user. For example, the fonts and buttons
+          might look good on a FullHD resolution, but having huge fonts on mobile is tiring and unesthetic.
+        </p>
+
+      </section>
+
+      <section id="Backend">
+        <h3>Backend and Functionality</h3>
+        <p>
+          TeVi has 3 main points when it comes to backend and functionality: to filter, to locate and to provide statistics. 
+        </p> 
+
+        <section id="Filtering">
+          <!-- review? -->
+          <h4>Filtering the attacks</h4>
+          <p>
+            The provided CSV on <a href="https://www.kaggle.com/START-UMD/gtd">https://www.kaggle.com/START-UMD/gtd</a> 
+            has 155.27 MB, 135 columns with fields specific to each of the 180.000 attacks so it seems only logical to 
+            implement a filtering system based on a few options:
+            <ul>
+              <li>What happened to the vitims of the attack? Was it a fatal attack or not, did the perpetator commit suicide? - DYNAMIC FILTER</li>
+              <li>In what period of time did the attack happen? - STATIC FILTER</li>
+              <li>What was the attack related to? - DYNAMIC FILTER</li>
+              <li>What weapon was used for the attack? - DYNAMIC FILTER</li>
+              <li>In what region and country did it happen? - DYNAMIC FILTER</li>
+            </ul>
+          </P>
+          <p>
+            Using these advanced search filters the application returns only the attacks which fit the option chosen by
+            user and the user will be able to see the statistics and the map only with a certain type of attacks. If none
+            of the filters are selected the map and charts view will consist of all the attacks imported.
+          </p>
+          <p>
+            As we mentioned above, initially all the events are taken into consideration.
+          </p>
+          <img src="img/initial filters.png" style="width: 80%; display: block; margin-left: auto; margin-right: auto; margin-bottom: 20px;">
+          <img src="img/before.png" style="width: 80%; display: block; margin-left: auto; margin-right: auto; margin-bottom:">
+          <p>
+            After applying some filters, only the events which fit will be displayed.
+          </p>
+          <img src="img/applied filters.png" style="width: 80%; display: block; margin-left: auto; margin-right: auto; margin-bottom: 20px;">
+          <img src="img/after.png" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+          <p>
+            The filtering was implemented using PHP and JavaScript. The necessary field values were imported dynamically from the database
+            using queries and they were later used to classify the events into groups which share similar values for the fields used to filter them.
+          </p>
+        </section>
+
+        <section id="Location">
+          <!-- review? -->
+          <h4>Locating the attacks</h4>
+          <p>
+            Using the Google Maps API we used the map plugin to show the terrorist attacks on the map. The events shown are affected
+            by the filters.
+          </P>
+          <p>
+            The attacks were "placed" on the map according to the data in the latitude and longitude fields in the CSV provided by Kaggle.
+          </p>
+          <img src="img/map.png" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+          <p>
+            The map has the usual Google Maps functionality: Regular View, Street View, zooming option, fullscreen view option, and the 
+            possibility to get the current location of the user in order to show him the closest attacks that happened. The current location
+            only works on https, but if the user is on http he will get an alert which informs him that he should use https to use the 
+            browser location function.
+          </p>
+          <img src="img/alert map.png" style="width: 50%; display: block; margin-left: auto; margin-right: auto;">
+          <p>
+            Clicking on a marker on the map automatically opens up a popup with general information about the attacks which happened
+            on the exact location.
+          </p>
+          <img src="img/opened event.png" style="width: 50%; display: block; margin-left: auto; margin-right: auto;">
+          <p>
+            When the user clicks on the marker, a request is sent to the server to return the values in the following fields which show
+            the country and the city where the attack happened, the group which committed the attack, the number of deaths and wounded people, 
+            the weapon used for the attack and the summary. Also, the user has the possibility to search for more information about the weapon
+            on Wikipedia and Google.
+          </p>
+          <p>
+            If more than one event happened at the same location, all the events that happened there will be shown.
+          </p>
+          <p>
+           In the CSV, there are several events which don't have a value in the longitude and latitude fields and instead of showing
+           them on the map at the (0,0) coordinates, they are removed from the map.
+          </p>
+          
+        </section>
+
+        <section id="Statistics">
+          <!-- review? -->
+          <h4>Providing Statistics</h4>
+          <p>
+            The statistics for the terrorist attacks were created using ChartJs, a free open source library for data visualization, which supports
+            several chart types.
+          </p>
+          <img src="img/graphs.png" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+          <p>
+            To showcase the variations we chose to use 4 different charts based on different fields which are relevant
+            to showcasing data related to terrorism.
+          </p>
+
+          <ul>
+            <li>
+              <img src="img/graph1.png" style="width: 80%; display: block; margin-left: auto; margin-right: auto; margin-bottom: 20px">
+              The chart showcasing terrorism by regions has the number of victims on the Y axis and the regions on the X axis. The fields used for
+              this stacked bar chart are nkill, nwound, region and region_txt.
+            </li>
+            <li>
+              <img src="img/graph2.png" style="width: 80%; display: block; margin-left: auto; margin-right: auto; margin-bottom: 20px">
+              The chart showcasing the terrorist incidents which happened in a certain period of time
+               has the number of victims on the Y axis and the years on the X axis. The fields used for
+              this line chart are nkill, nwound and iyear.
+            </li>
+            <li>
+              <img src="img/chart3.png" style="width: 80%; display: block; margin-left: auto; margin-right: auto; margin-bottom: 20px">
+              The chart showcasing the most attacked targets has the number of victims on the Y axis and the targerts on the X axis. The fields used for
+              this line chart are nkill, nwound, targtype1_txt and targtype1.
+            </li>
+            <li>
+              <img src="img/chart4.png" style="width: 80%; display: block; margin-left: auto; margin-right: auto; margin-bottom: 20px">
+              The chart showcasing the attack types has the attacks shown in percentages according to the number of victims. The fields used for
+              this pie chart are nkill, nwound, attacktype1 and attacktype1_txt.
+            </li>
+
+          </ul>
+          
+          <p>
+            Similarly to the map, the data for the charts is affected by the filters in order to show the varying statistics in different situations
+            where terrorism happened.
+          </p>
+
+          <h4>Exporting Statistics</h4>
+          <p>
+            For each chart the user can export in 3 different formats: the normal graphs in PNG or SVG format (because of the big number of values in 
+            ceratin fields, which caused the text to intercalate we gave the SVG a bigger height) or a CSV with the fields and the values
+            used for the chart.
+          </p>
+          <img src="img/download chart.png" style="width: 80%; display: block; margin-left: auto; margin-right: auto; margin-bottom: 20px;">
+          <img src="img/export png.png" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+          <p>
+            When the user clicks on a button to download a chart, a request is sent to the server to do it. 
+          </p>
+        </section>
+
+      </section>
+    
+     </section>
+
+     <section id="Optional page">
+      <h2>Optional pages</h2>
+      <p>
+        Because the projects is to create a site, we thought that incorporating more page would be a great idea, as the user would get more
+        opportunities to interact with the site. 
+      </p>
+      <p>
+        Apart from the main page with the filters, map and statistics, we implemented 4 more pages. 
+      </p>
+
+      <section id="Contact Page">
+        <h2>Contact Page</h2>
+        <p>
+          In the contact page we included a contact form and some useful information about the database.
+        </p>
+        <img src="img/contact.png" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
+
+        <section id="Form">
+          <h2>The message form</h2>
+          <p>
+            The Send Us a Message form has several input fields: First Name, Last Name, University, Class, Email and Message. The input is sent to the 
+            server. The input is verified.
+          </p>
+          <img src="img/form1.png" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
+
+          <p>
+            The user has to type a valid input in order to be able to send a message. If this isn't done properly, error messages will be displayed.
+          </p>
+          <img src="img/form2.png" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
+
+          <p>
+            If the user completes the form accordingly, an email will be sent to the address set in the config.php file (right now: elisa.giurgea@gmail.com).
+          </p>
+          <img src="img/form3.png" style="display: block; margin-left: auto; margin-right: auto; width: 80%; margin-bottom: 20px;">
+          <img src="img/formresponse.png" style="display: block; margin-left: auto; margin-right: auto; width: 80%; margin-bottom: 20px;">
+          <img src="img/form email.png" style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
+          
+        </section>
+        
+      </section>
+
+      <section id="Team Page">
+        <h2>Team Page</h2>
+        <p>
+          In the team page we attached our profile pictures and some contact links if anyone wants to contact us regarding the project.
+        </p>
+        <img src="img/team.png" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
+        
+      </section>
+
+      <section id="Evolution and Prevention">
+        <h2>Evolution and Prevention</h2>
+        <p>
+          These two pages contain some basic information taken from 2 articles which are referred and the user can access the full article by
+          clicking on the read more button.
+        </p>
+        <img src="img/text page.png" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
+        
+      </section>
+      
+    </section>
+
+  </body>
+</html>
