@@ -11,7 +11,6 @@ class Config {
 
 	const csv_database = "globalterrorismdb_0718dist.csv";
 
-
 	public static $table_attacks = "attacks";
 
 	public static $contact_to		= "elisa.giurgea@gmail.com";
