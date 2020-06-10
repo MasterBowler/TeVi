@@ -62,34 +62,6 @@ site.runOnScroll = function() {
 	}
 }
 
-site.runOnContentUpdate = function(ondone) {
-
-	ondone = ondone || null;
-
-	if (site.debug)	console.log("Executing onupdatecontent functions:");
-
-	if (site.extensions.length) { 
-		site.extensions.forEach(function(obj) {
-
-			if (typeof obj.runOnContentUpdate != "function") 
-				return false;
-
-			if (site.debug)	console.log(obj);
-
-		    try {
-				obj.runOnContentUpdate();
-			} catch (e) {
-				getStack(0, e);
-			}
-		});
-	}
-
-	if (ondone !== null) {
-		ondone();
-	}
-}
-
-
 site.debug = false;
 
 window.addEventListener('resize', site.runOnResize);
@@ -104,4 +76,3 @@ siteModule.prototype.name = "";
 siteModule.prototype.runOnLoad = null;
 siteModule.prototype.runOnResize = null;
 siteModule.prototype.runOnScroll = null;
-siteModule.prototype.runOnContentUpdate = null;
