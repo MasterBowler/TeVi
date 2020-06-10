@@ -27,5 +27,10 @@ The page is dedicated to contacting us.
 
 Technologies Used: HTML, SCSS, Javascript (+ChartJs), PHP
 
-http://tivo.stempora.me/index.html#
+https://tevi.stempora.me/
 (Hosted on workplace server - Giurgea Elisa, Stempora)
+
+Documentation:
+- Functionality: http://tevi.stempora.me/documentation/index.html
+- User Guide: http://tevi.stempora.me/documentation/guide.html
+- Progress: http://tevi.stempora.me/documentation/progress.html
