@@ -57,7 +57,7 @@
           In what direction should we go with the design?
         </p>
         <p>
-          Luckily we agreed the first time we meet. After that we created a Facebook group, a discord server, the drive folder,
+          Luckily we agreed the first time we met. After that we created a Facebook group, a discord server, the drive folder,
           the repository and everything else. Shortly after, we conclude what we will use and what we should study more 
           in order to have a good project. SCSS was something Elisa suggested, because she also had to learn it for her job.
           Apart from that, we agreed to use ChartJs for the charts, beause it would simplify our work a lot and it was in the list
@@ -140,10 +140,115 @@
       <!-- review? -->
       <h2>Implementing the backend part and the functionality</h2>
       <p>
-        
+        For this part we made the corellation with the MVC design pattern (Model, View and Controller). The Model View Controller (MVC) design pattern specifies that an 
+        application consist of a data model, presentation information, and control information. The pattern requires that each of these be separated into different files. The 
+        communication between the PHP and JS was made using the REST Api. It uses HTTP protocol methods: GET to retrieve a resource etc. Example: 
+        <a href="http://tevi.stempora.me/api.php?action=search&victims=&attack_type=&weapon_type=&country=&period=&region=">http://tevi.stempora.me/api.php?action=search&victims=&attack_type=&weapon_type=&country=&period=&region=</a>.
+      </p>
+      <img src="img/mvc.jpg" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
+      <p>
+        We separated these 3 parts like this: 
+        <ul>
+          <li>The Model consists of the PHP classes which extend the main Class Model. In the Model Class a new database is initialised using the configuration data.
+            The rest of the classes handle different tasks linked to Model:
+            <ul>
+              <li>The Config Class has the data needed to make a connection to the database and to use the contact form.</li>
+              <li>The Database Class is used to construct a database with the given connection data: server, user, password and to define the way queries will be executed.</li>
+              <li>The Import Class prepares the table attacks by creating a table with the specific fields and their specific types, this was done using MySQL queries,
+                after that the CSV taken from Kaggle is processed and we insert the values in the specific fields also using MySQL queries. </li>
+              <li>The API class is used to get the JSONs for each needed field: countries, weapon, regions, attack types etc. Also, here we get dinamically the values for 
+                the filters and the charts. It also returns the details about the events according to the id when a request is received after clicking on the map.</li>
+              <li>The Contact class is for the contact form.</li>
+            </ul>
+            <p>The Database importer from the Model was implemented by Elisa and Mihai.</p>
+            <p>The API class was a team effort as it has many similar functions and each of us did some of them: the code for 2 of the charts was implemented by Elisa 
+              and later modified and continued by Mihai who added a new chart and then Georgiana, for the field getters, we split them equally: Georgiana implemented the getters for the 
+              period of time and weapons, Elisa implemented them for countries and regions and Mihai for the attack types and he added the randomized color function which would be later
+              used for the charts.
+            </p>
+          </li>
+          <li>The View part consists of the frontend, for which the process was documented earlier. The View is the part that the user sees, the visible interface (HTML + 
+            SCSS).
+          </li>
+          <li>The Controller exists between the view and the model. It listens to the events triggers by the view (what the users clicks on for example) and starts executing the 
+            appropriate reaction to the specific events: calls a method on the model. The result of this action is then reflected in the frontend visible part.
+            <ul>
+              <li>In core.js there are 3 loaders implemented by Mihai: onLoad, onScroll and onResize, these will start the actions on the following modules: contact, filter and 
+                navigation.
+              </li>
+              <li>The navigation module is used for the collapsed menu and it triggers when the corresponding buttons are clicked: one for the main navigation bar and one 
+                for the secondary navigation bar. It was implemented by Elisa when she fixed the menu on responsive.</li>
+              <li>The contact module JS is used for sending a request to the corresponding php Class and handling the contact form errors which can emerge if the fields are 
+                not completed properly. (Elisa)</li>
+              <li>The filter module JS is used for the filters, the chart and the map. There are several event listener methods implemented for each different situation that 
+                can occur: for example, clicking a marker, which cause the JS to send a request to get the needed fields to show in the popup and the php to send the requested data.
+                This module was implemented also as a team effort, being the most demanding one:
+                <ul>
+                  <li>First, we have the 6 filters that get the data from api.php and also the 4 charts, this way, the possible errors are avoided. Georgiana did this part. 
+                    (2 filters, countries and regions were 
+                    corellated by Elisa so that the user can't select a country when he already has a region that doesn't have that exact country.)
+                  </li>
+                  <li>From the start the user has 2 possible view tabs, so 2 events to load: seeing the map or the charts with the filtered attacks. After the user clicks the corresponding buttons 
+                    in the interface, there are 2 functions that load the requested view: showMapTab and showGraphsTab. This part was implemented by Mihai
+                  </li>
+                  <li>Firstly, if the map view is selected -> the map is initialised, we have several listeners: getting the current location from the browser, clicking on an event marker (Elisa) 
+                    which causes the JS to request several fields and closing an event marker (Mihai). After changing the filter values, the map reloads (Elisa).
+                  </li>
+                  <li>Secondly, if the chart view is selected -> the charts are shown, we have several listeners: if the filter values are changed, the charts reload with the new requested data (updateGraphs)(Mihai). 
+                    Of course, another part from the charts is the filde download implementation: if a button is clicked, the JS reacts by triggering the download action for each selected file: CSV, PNG and CSV, 
+                    a part which was documented and implemented by Georgiana.
+                  </li>
+                </ul>
+              </li>
+            
+            </ul>
+          </li>
+        </ul>
+      </p>
+      <p>
+        This part took around 10 days as we had some unpleasant errors to deal with. 
       </p>
   
   </section>
+
+  <section id="testing">
+    <!-- review? -->
+    <h2>Testing the site</h2>
+    <p>
+      During and after the main developement process we thought it would be a great idea to test several scenarios so that there as as little errors as possible and that the 
+      interface is as user friendly as possible. 
+    </p>
+    <p>
+      To do that we created a <a href="https://docs.google.com/document/d/1RpWYwh_jq8mfgKR33aNYBeBVSQ6FAiN_bF3cKUqLt8g/edit">google docs file</a> and asked for feedback from a few "testers" among our 
+      colleagues and not only. 
+    </p>
+    <p>
+      Starting with some visibility problems with the buttons for the collapsed menu, unaligned texts, uncustomized buttons and some problems with the charts on responsive, the 
+      testing was also done for the map and charts: there were a few events which didn't have coordinated in the database so they were automatically placed on (0,0) when clicking 
+      on the Eatern Europe region, which is not correct, apart from that, there was a problem with the contact form, because one of us made a faulty commit. Another great suggestion was 
+      to link the region with the country so that the user can't select Europe and Algeria, for example.
+    </p>
+    <p>
+      The site was also tested for SQL Injections and security problems.
+    </p>
+    <p>
+      The feedback we received had a few valid points which improved the site considerably, so we thank them for the effort.
+    </p>
+    <p>Testers:</p>
+    <ul>
+      <li>Giurgea Emanuel, Stempora and Former UAIC FII Student</li>
+      <li>Timofte Andrei Theodor, Endava and Former UAIC FII Student</li>
+      <li>Dobrica Stefan, Bitdefender and UAIC FII Student</li>
+      <li>Bosinceanu Lucian Andrei, Shoreline and Former UAIC FII Student</li>
+      <li>Tanase Teofil, UAIC FII Student</li>
+      <li>Boghez George, Former Bitdefender and UAIC FII Student</li>
+      <li>Perju Smaranda Delia, UAIC FII Student</li>
+    </ul>
+    <p>
+      These last fixed were handled in around 2 days.
+    </p>
+
+</section>
 
   </body>
 </html>
