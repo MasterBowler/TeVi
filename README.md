@@ -30,6 +30,9 @@ Technologies Used: HTML, SCSS, Javascript (+ChartJs), PHP
 https://tevi.stempora.me/
 (Hosted on workplace server - Giurgea Elisa, Stempora)
 
+Drive folder with files(updated):
+https://drive.google.com/drive/u/0/folders/1YEu8HXSeHGkJTwKx-OcLkozT5ejn4Fce
+
 Documentation:
 - Functionality: http://tevi.stempora.me/documentation/index.html
 - User Guide: http://tevi.stempora.me/documentation/guide.html
