@@ -34,3 +34,9 @@ Documentation:
 - Functionality: http://tevi.stempora.me/documentation/index.html
 - User Guide: http://tevi.stempora.me/documentation/guide.html
 - Progress: http://tevi.stempora.me/documentation/progress.html
+
+Demo presentation:
+- PC:     https://drive.google.com/drive/u/0/folders/1Xvyk0ph1JrqeWX3QDWVujg-ysU-7Ydet
+- Tablet: https://drive.google.com/drive/u/0/folders/1Xvyk0ph1JrqeWX3QDWVujg-ysU-7Ydet
+- Phone:  https://drive.google.com/drive/u/0/folders/1Xvyk0ph1JrqeWX3QDWVujg-ysU-7Ydet
+          https://drive.google.com/drive/u/0/folders/1Xvyk0ph1JrqeWX3QDWVujg-ysU-7Ydet
